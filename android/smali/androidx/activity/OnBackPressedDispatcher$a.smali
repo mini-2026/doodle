@@ -1,0 +1,65 @@
+.class final Landroidx/activity/OnBackPressedDispatcher$a;
+.super Lm0/l;
+.source "SourceFile"
+
+# interfaces
+.implements Ll0/l;
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingMethod;
+    value = Landroidx/activity/OnBackPressedDispatcher;-><init>(Ljava/lang/Runnable;Landroidx/core/util/a;)V
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x18
+    name = null
+.end annotation
+
+
+# instance fields
+.field final synthetic b:Landroidx/activity/OnBackPressedDispatcher;
+
+
+# direct methods
+.method constructor <init>(Landroidx/activity/OnBackPressedDispatcher;)V
+    .locals 0
+
+    iput-object p1, p0, Landroidx/activity/OnBackPressedDispatcher$a;->b:Landroidx/activity/OnBackPressedDispatcher;
+
+    const/4 p1, 0x1
+
+    invoke-direct {p0, p1}, Lm0/l;-><init>(I)V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public bridge synthetic b(Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 1
+    check-cast p1, Landroidx/activity/b;
+
+    invoke-virtual {p0, p1}, Landroidx/activity/OnBackPressedDispatcher$a;->c(Landroidx/activity/b;)V
+
+    sget-object p1, Le0/i;->a:Le0/i;
+
+    return-object p1
+.end method
+
+.method public final c(Landroidx/activity/b;)V
+    .locals 1
+
+    .line 1
+    const-string v0, "backEvent"
+
+    invoke-static {p1, v0}, Lm0/k;->e(Ljava/lang/Object;Ljava/lang/String;)V
+
+    iget-object v0, p0, Landroidx/activity/OnBackPressedDispatcher$a;->b:Landroidx/activity/OnBackPressedDispatcher;
+
+    invoke-static {v0, p1}, Landroidx/activity/OnBackPressedDispatcher;->e(Landroidx/activity/OnBackPressedDispatcher;Landroidx/activity/b;)V
+
+    return-void
+.end method
