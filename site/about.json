@@ -1,0 +1,16 @@
+{
+ "name": "Doodle",
+ "apk": "doodle.apk",
+ "tag": "name",
+ "web": true,
+ "webroot": "assets/public",
+ "intro": [
+  "아이가 그린 그림을 찍거나 직접 그리면 살아 움직여요.",
+  "화석 발굴, 알 부화, 따라 그리기 같은 놀이가 있어요.",
+  "그린 그림은 앨범에 모여요."
+ ],
+ "redirects": [
+  "guide.html",
+  "app.html"
+ ]
+}
