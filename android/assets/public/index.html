@@ -616,9 +616,9 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
   <p class="ver2" id="updVer"></p>
   <pre id="updNotes"></pre>
   <div class="row"><button class="btn" id="updLater">나중에</button><button class="btn main" id="updGo">업데이트</button></div>
-  <p>업데이트를 누르면 새 앱 파일을 받아요. 받은 파일을 열어 설치하면 끝! 만든 친구들은 그대로 남아요.</p>
+  <p id="updHow">업데이트를 누르면 새 앱 파일을 받아요. 받은 파일을 열어 설치하면 끝! 만든 친구들은 그대로 남아요.</p>
 </div></div>
-<div class="ver">v4.6</div>
+<div class="ver">v4.7</div>
 
 <script>
 (function(){
@@ -2397,7 +2397,9 @@ async function checkUpdate(){
     const url=okUrl?asset.browser_download_url:'https://github.com/'+REPO+'/releases/latest';
     $('updVer').textContent=APP_VER+'  →  '+j.tag_name;
     $('updNotes').textContent=String(j.body||'새 기능이 들어왔어요.').replace(/[#*`>]/g,'').replace(/\n{3,}/g,'\n\n').trim().slice(0,800);
-    $('updGo').onclick=()=>{location.href=url};
+    const inApp=!!(window.AppInfo&&AppInfo.canUpdate&&AppInfo.canUpdate());
+    $('updHow').textContent=inApp?'업데이트를 누르면 앱 안에서 새 버전을 받고 설치 화면을 열어요. 만든 친구와 그림은 그대로 남아요.':'업데이트를 누르면 새 앱 파일을 받아요. 받은 파일을 열어 설치하면 끝! 만든 친구들은 그대로 남아요.';
+    $('updGo').onclick=()=>{if(inApp&&AppInfo.updStart()){$('upd').hidden=true;return}location.href=url};
     $('updLater').onclick=()=>{$('upd').hidden=true};
     $('upd').hidden=false;
   }catch(e){}
@@ -2433,8 +2435,8 @@ requestAnimationFrame(loop);
 })();
 </script>
 <!--APPINFO--><script>
-window.APP_INFO={"name": "Doodle", "repo": "mini-2026/doodle", "version": "4.6", "mount": ".ver", "notes": [{"v": "current", "d": "2026.11.26", "items": ["👆 버튼 크게: 그리기·연극·친구들 탭의 작은 버튼과 색 동그라미를 아이 손가락으로 누르기 쉽게 키웠어요", "↶ 되돌리기: 「다 지우기」를 한 번 더 눌러야 지워지고, 되돌리면 밑그림까지 돌아와요", "🎭 연극 대사와 장면의 ×도 한 번 더 눌러야 지워져요", "📤 그림 앨범의 그림 하나를 저장하거나 보낼 수 있어요", "⚡ 그림이 많이 쌓여도 앨범과 「살아나라!」가 느려지지 않게 했어요", "🧹 보내려고 잠깐 만든 사진·영상·백업 파일을 폰에 남기지 않아요", "✏️ '적던 글이 남아 있어요' 안내가 자꾸 뜨던 문제를 고치고, 아이폰·마이크 안내 문구를 상황에 맞게 바꿨어요"]}, {"v": "v4.5", "d": "2026.11.20", "items": ["📝 적던 글 지키기: 글을 적다가 앱이 꺼져도 사라지지 않아요. 다시 열어 같은 칸을 열면 적던 글이 그대로 이어져요 (필요 없으면 '지우기'를 눌러 주세요)"]}, {"v": "v4.4", "d": "2026.11.15", "items": ["✏️ 글자 다듬기: '저장하세요'를 '저장해 주세요'처럼 부드럽게 바꾸고, 띄어쓰기(읽어 줘요·알려 주기)를 맞췄어요. 비밀번호·저장 공간 안내를 다른 앱과 같은 말로 맞추고, '내 데이터 백업'을 '내 기록 백업'으로 바꿨어요"]}, {"v": "v4.3", "d": "2026.11.13", "items": ["🎪 친구가 없을 때 무대 버튼(연극·녹화·자동 놀이·사진)은 흐리게 보여요. 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고 친구 만드는 곳으로 안내해요", "🌗 부모님 칸에 「화면 색」이 생겼어요. 폰 설정 따라·밝게·어둡게 중에 골라요", "🎨 주황 버튼 색을 진하게 해서 흰 글씨가 더 잘 보여요. 새 버전 알림 글씨도 밝은 화면에서 잘 보이게 했어요", "🔒 백업 비밀번호를 더 튼튼하게 만들어요. 이제 8글자 이상이고, 숫자만 쓰면 한 번 더 확인해요 (예전에 만든 백업도 그대로 열려요)", "💾 저장이 안 될 때 알림 문구를 알기 쉽게 바꾸고, 또 실패하면 다시 알려 줘요", "🔒 아이폰 웹앱이 같은 주소의 다른 앱 저장 파일을 지우지 않게 고쳤어요", "왼쪽 아래 버전 글씨를 누르기 쉽게 조금 넓혔어요"]}, {"v": "v4.2", "d": "2026.11.13", "items": ["🦖 처음 열면 무대 아래에 「공룡 색칠부터 해 보기」 버튼이 있어요. 눌러서 바로 시작해요", "🎭 친구가 없을 때 연극 탭이나 친구 꾸미기를 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고, 「친구 만들러 가기」로 바로 가요", "▶ 무대 버튼 아래에 연극·녹화·자동 놀이·소리·사진 이름을 붙였어요. 오른쪽 위 말하기 버튼도 「한국어·영어·조용히」로 보여요", "💾 그림을 더 넉넉한 저장 공간에 보관해요. 그림이 많아도 안 사라지고, 저장이 안 되면 화면에 알려 줘요 (예전 그림은 저절로 옮겨져요)", "🔒 백업 파일에 비밀번호를 걸 수 있어요 (6글자 이상). 아이 그림과 목소리를 더 안전하게 지켜요", "🧸 친구 상자에서 ×를 한 번 더 눌러야 빠져요 (실수로 지우지 않게). 빼도 그림 앨범에는 남아요", "🌙 어두운 화면에서 스티커·도감 카드가 눈부시지 않게 했어요. 부모님 칸에 글자 크기(보통·크게·아주 크게)가 생겼어요", "🔤 낱말이 중간에서 끊기지 않게 줄을 바꿔요. 왼쪽 아래 버전 글씨가 화면 내용을 가리지 않아요", "🔒 보안: 폰 자동 백업으로 그림이 밖으로 나가지 않게 하고, 암호화 안 된 인터넷 주소는 막았어요. 글꼴 파일을 줄여 앱이 더 가벼워졌어요", "「무대에서 내보내기」→「무대에서 빼기」, 「모두 같게」→「모두 같은 움직임」으로 쉬운 말로 바꿨어요"]}, {"v": "v4.1", "d": "2026.11.12", "items": ["🦴 화석 발굴 버튼 이름을 다른 놀이와 같게 「살아나라!」로 맞췄어요", "🔒 앱을 만들 때 쓰는 부품 버전을 고정해서 더 안전하게 만들어요"]}, {"v": "v4.0", "d": "2026.11.08", "items": ["🦴 화석 발굴: 모래를 문질러 공룡 화석을 찾고 살려내요 (도감에도 들어가요)", "🥚 알 부화: 알을 색칠하고 살아나라! 하면 흔들흔들 깨지며 아기 공룡이 태어나요", "🔊 누구일까?: 설명을 듣고 공룡 세 마리 중에 맞혀요 (한국어·영어)", "✏️ 따라 그리기: 점선을 순서대로 따라 그리면 공룡 완성 (알·티라노·브라키오·스테고)", "🎤 목소리 이름: 이름을 말로 담으면 무대에서 누를 때마다 그 목소리로 불러 줘요", "📅 그림 앨범: 만든 친구들이 날짜별로 모여요", "📖 연극 그림책: 대사 한 줄이 한 쪽! 그림책(PDF)으로 저장·카톡 보내기", "🔒 놀이 시간(부모님): 정한 시간이 되면 친구들이 인사하고 커튼을 닫아요", "보안: 앱이 쓰지 않는 바깥 글꼴·그림 주소를 막고, 인터넷은 업데이트 확인 주소만 쓰게 했어요"]}, {"v": "v3.8", "d": "2026.11.05", "items": ["보안 강화: 앱 화면이 허락된 곳 말고는 스크립트를 불러오지 못하게 막고, 폰의 다른 파일을 읽지 못하게 하고, 업데이트 파일은 이 앱 저장소 주소에서만 받아요"]}, {"v": "v3.7", "d": "2026.11.05", "items": ["📷 그림 사진: 사진 찍기와 앨범 고르기를 따로 눌러요 (앱에서 카메라가 안 열리던 문제 고침)", "사진에서 원하는 곳만 손가락으로 둘러 고르면, 사진 모습 그대로 그리기 화면에 들어가요. 그 위에 그리고 색칠한 뒤 살아나라!", "말로 알려 주기를 한국어·영어 중에 골라요 (오른쪽 위 🗣️ 버튼: 한 → EN → 끄기)", "종이 색칠 놀이를 뺐어요"]}, {"v": "v3.6", "d": "2026.11.05", "items": ["공룡 밑그림 12종을 도감처럼 고급스럽게 새로 그렸어요 (팔다리·꼬리 움직임도 새 그림에 맞춤)", "사진으로 밑그림: 사진을 찍고 색칠하고 싶은 것만 손가락으로 빙 두르면 배경을 빼고 색칠 밑그림으로 바꿔요 (선 적게·보통·많이)", "만든 사진 밑그림은 밑그림 고르기 → 📸 내 사진에 모여요"]}, {"v": "v3.5", "d": "2026.11.05", "items": ["아이폰·아이패드에서도 써요 (사파리에서 열고 홈 화면에 추가)", "스케치북에 그린 그림 사진에서 책상·그림자·누런 종이·스프링을 빼고 그림만 오려 친구로", "띠링·쿵 같은 효과음을 뺐어요 (말소리·목소리·배경 음악은 그대로)", "내 기록 백업: 왼쪽 아래 버전 → 친구·그림·대본을 파일로 저장했다가 새 폰(아이폰도)에서 불러오기"]}, {"v": "v3.4", "d": "2026.11.01", "items": ["그리기 탭에서도 '📷 그림 사진'으로 종이에 그린 그림을 찍어 친구 만들기", "작은 폰에서 그리기 탭 위쪽 버튼 글자가 두 줄로 깨지지 않게"]}, {"v": "v3.3", "d": "2026.11.01", "items": ["공룡 3·6·9·12마리를 모으면 스티커를 받고, 도감을 다 채우면 축하 화면이 떠요", "친구들 탭 맨 위에 '새 친구 만들기' 버튼", "휴대폰 뒤로 가기 버튼으로 열린 창부터 닫아요 (예전에는 바로 앱이 꺼졌어요)"]}, {"v": "v3.2", "d": "2026.11.01", "items": ["작은 폰에서 친구들 탭이 옆으로 밀리던 문제를 고쳤어요", "작은 폰에서 무대 버튼이 화면 밖으로 나가지 않게 했어요", "친구가 없을 때 꾸미기 버튼을 누르면 친구부터 만들라고 알려 줘요"]}, {"v": "v3.1", "d": "2026.11.01", "items": ["처음 열면 빈 무대에서 시작해요 (예시 친구를 미리 넣지 않아요)", "보안: 앱 서명 키를 새로 바꿨어요. 이번 한 번만 지우고 새로 설치해 주세요", "왼쪽 아래 버전을 누르면 앱 정보·업데이트 내용을 볼 수 있고, 새 버전이 있으면 노란색으로 알려 줘요"]}, {"v": "v3.0", "d": "2026.10.30", "items": ["공룡이 공룡처럼 걷고 울고 꼬리를 흔들어요, 공룡 도감 12칸", "누르는 것마다 이름을 읽어 줘요", "팔다리 만들기, 종이 색칠, 장면이 있는 연극과 영상 저장", "앱을 껐다 켜도 무대·대본·그림이 그대로"]}, {"v": "v2.2", "d": "2026.10.29", "items": ["앱 받기·사용 설명 페이지", "화면을 길게 눌러도 글자가 선택되지 않아요", "펜 굵기 미리보기 모양 수정"]}, {"v": "v2.1", "d": "2026.10.29", "items": ["무대 버튼을 아이콘으로 작게 정리", "친구 꾸미기는 친구들 탭, 배경·음악은 연극 탭으로"]}, {"v": "v1.8", "d": "2026.10.28", "items": ["새 버전이 나오면 앱을 켤 때 알려 줘요", "업데이트해도 만든 친구들은 그대로"]}], "privacy": "그린 그림, 가져온 사진, 친구, 대본, 녹음한 목소리, 그림 앨범은 이 폰에만 저장돼요. 저장하거나 보내려고 잠깐 만든 파일은 다음에 보낼 때나 앱을 열 때 지워요. 폰 자동 백업에도 실리지 않아요. 인터넷은 새 버전을 확인할 때만 써요.", "backup": {"keys": ["living-drawing-box-v1", "doodle-*"], "idb": [{"db": "doodle-data", "store": "kv"}, {"db": "doodle-album", "store": "items"}]}};
-window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());window.APP_INFO.web=!window.APP_INFO.online&&/github\.io$/.test(location.hostname);if(window.APP_INFO.online)window.APP_INFO.backup.save=function(n,t){var P=Capacitor.Plugins;if(!P.Filesystem||!P.Share)return false;return Promise.resolve(window.doodleCleanCache&&window.doodleCleanCache()).then(function(){return P.Filesystem.writeFile({path:n,data:t,directory:'CACHE',encoding:'utf8'})}).then(function(w){return P.Share.share({title:n,files:[w.uri],dialogTitle:'백업 파일 저장하기'})}).then(function(){return true},function(e){if(/cancel/i.test(String(e&&e.message||e)))return false;throw e})};
+window.APP_INFO={"name": "Doodle", "repo": "mini-2026/doodle", "version": "4.7", "mount": ".ver", "notes": [{"v": "current", "d": "2026.11.26", "items": ["⬇️ 새 버전을 앱 안에서 바로 받아요. 왼쪽 아래 버전을 누르고 '업데이트 받기'를 누르면 얼마나 받았는지(%) 보이고, 다 받으면 설치 화면이 열려요", "🔒 받은 파일이 Doodle에서 만든 진짜 새 버전인지 확인한 뒤에만 설치해요. 받은 파일은 앱을 다시 열 때 저절로 지워져요", "🙋 처음 한 번은 폰이 '설치 허용'을 물어봐요. 켜고 돌아오면 이어서 설치돼요. 잘 안 되면 '브라우저로 받기'를 누르면 돼요"]}, {"v": "v4.6", "d": "2026.11.26", "items": ["👆 버튼 크게: 그리기·연극·친구들 탭의 작은 버튼과 색 동그라미를 아이 손가락으로 누르기 쉽게 키웠어요", "↶ 되돌리기: 「다 지우기」를 한 번 더 눌러야 지워지고, 되돌리면 밑그림까지 돌아와요", "🎭 연극 대사와 장면의 ×도 한 번 더 눌러야 지워져요", "📤 그림 앨범의 그림 하나를 저장하거나 보낼 수 있어요", "⚡ 그림이 많이 쌓여도 앨범과 「살아나라!」가 느려지지 않게 했어요", "🧹 보내려고 잠깐 만든 사진·영상·백업 파일을 폰에 남기지 않아요", "✏️ '적던 글이 남아 있어요' 안내가 자꾸 뜨던 문제를 고치고, 아이폰·마이크 안내 문구를 상황에 맞게 바꿨어요"]}, {"v": "v4.5", "d": "2026.11.20", "items": ["📝 적던 글 지키기: 글을 적다가 앱이 꺼져도 사라지지 않아요. 다시 열어 같은 칸을 열면 적던 글이 그대로 이어져요 (필요 없으면 '지우기'를 눌러 주세요)"]}, {"v": "v4.4", "d": "2026.11.15", "items": ["✏️ 글자 다듬기: '저장하세요'를 '저장해 주세요'처럼 부드럽게 바꾸고, 띄어쓰기(읽어 줘요·알려 주기)를 맞췄어요. 비밀번호·저장 공간 안내를 다른 앱과 같은 말로 맞추고, '내 데이터 백업'을 '내 기록 백업'으로 바꿨어요"]}, {"v": "v4.3", "d": "2026.11.13", "items": ["🎪 친구가 없을 때 무대 버튼(연극·녹화·자동 놀이·사진)은 흐리게 보여요. 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고 친구 만드는 곳으로 안내해요", "🌗 부모님 칸에 「화면 색」이 생겼어요. 폰 설정 따라·밝게·어둡게 중에 골라요", "🎨 주황 버튼 색을 진하게 해서 흰 글씨가 더 잘 보여요. 새 버전 알림 글씨도 밝은 화면에서 잘 보이게 했어요", "🔒 백업 비밀번호를 더 튼튼하게 만들어요. 이제 8글자 이상이고, 숫자만 쓰면 한 번 더 확인해요 (예전에 만든 백업도 그대로 열려요)", "💾 저장이 안 될 때 알림 문구를 알기 쉽게 바꾸고, 또 실패하면 다시 알려 줘요", "🔒 아이폰 웹앱이 같은 주소의 다른 앱 저장 파일을 지우지 않게 고쳤어요", "왼쪽 아래 버전 글씨를 누르기 쉽게 조금 넓혔어요"]}, {"v": "v4.2", "d": "2026.11.13", "items": ["🦖 처음 열면 무대 아래에 「공룡 색칠부터 해 보기」 버튼이 있어요. 눌러서 바로 시작해요", "🎭 친구가 없을 때 연극 탭이나 친구 꾸미기를 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고, 「친구 만들러 가기」로 바로 가요", "▶ 무대 버튼 아래에 연극·녹화·자동 놀이·소리·사진 이름을 붙였어요. 오른쪽 위 말하기 버튼도 「한국어·영어·조용히」로 보여요", "💾 그림을 더 넉넉한 저장 공간에 보관해요. 그림이 많아도 안 사라지고, 저장이 안 되면 화면에 알려 줘요 (예전 그림은 저절로 옮겨져요)", "🔒 백업 파일에 비밀번호를 걸 수 있어요 (6글자 이상). 아이 그림과 목소리를 더 안전하게 지켜요", "🧸 친구 상자에서 ×를 한 번 더 눌러야 빠져요 (실수로 지우지 않게). 빼도 그림 앨범에는 남아요", "🌙 어두운 화면에서 스티커·도감 카드가 눈부시지 않게 했어요. 부모님 칸에 글자 크기(보통·크게·아주 크게)가 생겼어요", "🔤 낱말이 중간에서 끊기지 않게 줄을 바꿔요. 왼쪽 아래 버전 글씨가 화면 내용을 가리지 않아요", "🔒 보안: 폰 자동 백업으로 그림이 밖으로 나가지 않게 하고, 암호화 안 된 인터넷 주소는 막았어요. 글꼴 파일을 줄여 앱이 더 가벼워졌어요", "「무대에서 내보내기」→「무대에서 빼기」, 「모두 같게」→「모두 같은 움직임」으로 쉬운 말로 바꿨어요"]}, {"v": "v4.1", "d": "2026.11.12", "items": ["🦴 화석 발굴 버튼 이름을 다른 놀이와 같게 「살아나라!」로 맞췄어요", "🔒 앱을 만들 때 쓰는 부품 버전을 고정해서 더 안전하게 만들어요"]}, {"v": "v4.0", "d": "2026.11.08", "items": ["🦴 화석 발굴: 모래를 문질러 공룡 화석을 찾고 살려내요 (도감에도 들어가요)", "🥚 알 부화: 알을 색칠하고 살아나라! 하면 흔들흔들 깨지며 아기 공룡이 태어나요", "🔊 누구일까?: 설명을 듣고 공룡 세 마리 중에 맞혀요 (한국어·영어)", "✏️ 따라 그리기: 점선을 순서대로 따라 그리면 공룡 완성 (알·티라노·브라키오·스테고)", "🎤 목소리 이름: 이름을 말로 담으면 무대에서 누를 때마다 그 목소리로 불러 줘요", "📅 그림 앨범: 만든 친구들이 날짜별로 모여요", "📖 연극 그림책: 대사 한 줄이 한 쪽! 그림책(PDF)으로 저장·카톡 보내기", "🔒 놀이 시간(부모님): 정한 시간이 되면 친구들이 인사하고 커튼을 닫아요", "보안: 앱이 쓰지 않는 바깥 글꼴·그림 주소를 막고, 인터넷은 업데이트 확인 주소만 쓰게 했어요"]}, {"v": "v3.8", "d": "2026.11.05", "items": ["보안 강화: 앱 화면이 허락된 곳 말고는 스크립트를 불러오지 못하게 막고, 폰의 다른 파일을 읽지 못하게 하고, 업데이트 파일은 이 앱 저장소 주소에서만 받아요"]}, {"v": "v3.7", "d": "2026.11.05", "items": ["📷 그림 사진: 사진 찍기와 앨범 고르기를 따로 눌러요 (앱에서 카메라가 안 열리던 문제 고침)", "사진에서 원하는 곳만 손가락으로 둘러 고르면, 사진 모습 그대로 그리기 화면에 들어가요. 그 위에 그리고 색칠한 뒤 살아나라!", "말로 알려 주기를 한국어·영어 중에 골라요 (오른쪽 위 🗣️ 버튼: 한 → EN → 끄기)", "종이 색칠 놀이를 뺐어요"]}, {"v": "v3.6", "d": "2026.11.05", "items": ["공룡 밑그림 12종을 도감처럼 고급스럽게 새로 그렸어요 (팔다리·꼬리 움직임도 새 그림에 맞춤)", "사진으로 밑그림: 사진을 찍고 색칠하고 싶은 것만 손가락으로 빙 두르면 배경을 빼고 색칠 밑그림으로 바꿔요 (선 적게·보통·많이)", "만든 사진 밑그림은 밑그림 고르기 → 📸 내 사진에 모여요"]}, {"v": "v3.5", "d": "2026.11.05", "items": ["아이폰·아이패드에서도 써요 (사파리에서 열고 홈 화면에 추가)", "스케치북에 그린 그림 사진에서 책상·그림자·누런 종이·스프링을 빼고 그림만 오려 친구로", "띠링·쿵 같은 효과음을 뺐어요 (말소리·목소리·배경 음악은 그대로)", "내 기록 백업: 왼쪽 아래 버전 → 친구·그림·대본을 파일로 저장했다가 새 폰(아이폰도)에서 불러오기"]}, {"v": "v3.4", "d": "2026.11.01", "items": ["그리기 탭에서도 '📷 그림 사진'으로 종이에 그린 그림을 찍어 친구 만들기", "작은 폰에서 그리기 탭 위쪽 버튼 글자가 두 줄로 깨지지 않게"]}, {"v": "v3.3", "d": "2026.11.01", "items": ["공룡 3·6·9·12마리를 모으면 스티커를 받고, 도감을 다 채우면 축하 화면이 떠요", "친구들 탭 맨 위에 '새 친구 만들기' 버튼", "휴대폰 뒤로 가기 버튼으로 열린 창부터 닫아요 (예전에는 바로 앱이 꺼졌어요)"]}, {"v": "v3.2", "d": "2026.11.01", "items": ["작은 폰에서 친구들 탭이 옆으로 밀리던 문제를 고쳤어요", "작은 폰에서 무대 버튼이 화면 밖으로 나가지 않게 했어요", "친구가 없을 때 꾸미기 버튼을 누르면 친구부터 만들라고 알려 줘요"]}, {"v": "v3.1", "d": "2026.11.01", "items": ["처음 열면 빈 무대에서 시작해요 (예시 친구를 미리 넣지 않아요)", "보안: 앱 서명 키를 새로 바꿨어요. 이번 한 번만 지우고 새로 설치해 주세요", "왼쪽 아래 버전을 누르면 앱 정보·업데이트 내용을 볼 수 있고, 새 버전이 있으면 노란색으로 알려 줘요"]}, {"v": "v3.0", "d": "2026.10.30", "items": ["공룡이 공룡처럼 걷고 울고 꼬리를 흔들어요, 공룡 도감 12칸", "누르는 것마다 이름을 읽어 줘요", "팔다리 만들기, 종이 색칠, 장면이 있는 연극과 영상 저장", "앱을 껐다 켜도 무대·대본·그림이 그대로"]}, {"v": "v2.2", "d": "2026.10.29", "items": ["앱 받기·사용 설명 페이지", "화면을 길게 눌러도 글자가 선택되지 않아요", "펜 굵기 미리보기 모양 수정"]}, {"v": "v2.1", "d": "2026.10.29", "items": ["무대 버튼을 아이콘으로 작게 정리", "친구 꾸미기는 친구들 탭, 배경·음악은 연극 탭으로"]}, {"v": "v1.8", "d": "2026.10.28", "items": ["새 버전이 나오면 앱을 켤 때 알려 줘요", "업데이트해도 만든 친구들은 그대로"]}], "privacy": "그린 그림, 가져온 사진, 친구, 대본, 녹음한 목소리, 그림 앨범은 이 폰에만 저장돼요. 저장하거나 보내려고 잠깐 만든 파일은 다음에 보낼 때나 앱을 열 때 지워요. 폰 자동 백업에도 실리지 않아요. 인터넷은 새 버전을 확인하고 받을 때만 써요.", "backup": {"keys": ["living-drawing-box-v1", "doodle-*"], "idb": [{"db": "doodle-data", "store": "kv"}, {"db": "doodle-album", "store": "items"}]}};
+window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());window.APP_INFO.updBridge='DoodleUpd';window.APP_INFO.web=!window.APP_INFO.online&&/github\.io$/.test(location.hostname);if(window.APP_INFO.online)window.APP_INFO.backup.save=function(n,t){var P=Capacitor.Plugins;if(!P.Filesystem||!P.Share)return false;return Promise.resolve(window.doodleCleanCache&&window.doodleCleanCache()).then(function(){return P.Filesystem.writeFile({path:n,data:t,directory:'CACHE',encoding:'utf8'})}).then(function(w){return P.Share.share({title:n,files:[w.uri],dialogTitle:'백업 파일 저장하기'})}).then(function(){return true},function(e){if(/cancel/i.test(String(e&&e.message||e)))return false;throw e})};
 </script>
 <script>
 /* ───── 앱 정보 창 (모든 앱 공통) ─────
@@ -2516,6 +2518,7 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
     '.btn{appearance:none;border:1px solid var(--line);background:var(--btn);color:var(--ink);border-radius:14px;padding:12px 18px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}' +
     '.btn.main{background:var(--yellow);border-color:var(--yellow);color:#1a1405}' +
     '.btn[disabled]{opacity:.6}' +
+    '.upbar{display:block;height:8px;margin-top:8px;border-radius:999px;background:var(--line);overflow:hidden}.upbar i{display:block;height:100%;border-radius:inherit;background:var(--yellow);transition:width .2s}' +
     '.lbl{margin:22px 0 4px;font-size:15px;font-weight:800;color:var(--ink2)}' +
     'ul.notes{list-style:none;margin:0;padding:0}' +
     'ul.notes>li{padding:12px 0;border-bottom:1px solid var(--line)}ul.notes>li:last-child{border-bottom:0}' +
@@ -2524,7 +2527,49 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
     '.hint{margin:0;color:var(--ink2)}' +
     'button:focus-visible,a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}';
   var isOpen = false;
+  /* 앱 안에서 새 버전 받기 (안드로이드 앱): 받는 중 % → 검사 → 설치 화면. 안 되면 브라우저로 받기 */
+  var upd = { st: '', n: -1, why: '' }, UPD_KEY = 'appinfo.' + C.repo + '.upd-wait';
+  var UPD_WHY = {
+    net: '인터넷 연결을 확인하고 다시 해 주세요.',
+    size: '파일이 예상보다 커서 받기를 멈췄어요.',
+    bad: '받은 파일이 망가졌어요. 다시 받아 주세요.',
+    pkg: C.name + ' 앱 파일이 아니라서 설치하지 않았어요.',
+    sign: C.name + '에서 만든 파일인지 확인되지 않아 설치하지 않았어요.',
+    old: '받은 파일이 지금 쓰는 버전과 같거나 더 예전 버전이에요.',
+    none: '새 버전 파일을 찾지 못했어요.',
+    open: '설치 화면을 열지 못했어요.'
+  };
+  var updBr = function () {
+    if (!C.online || !C.updBridge) return null;
+    try { var b = window[C.updBridge]; return b && typeof b.installUpdate === 'function' && (typeof b.canInstall !== 'function' || b.canInstall()) ? b : null; } catch (e) { return null; }
+  };
+  function updWait(on) { try { if (on) localStorage.setItem(UPD_KEY, String(Date.now())); else localStorage.removeItem(UPD_KEY); } catch (e) { /* 무시 */ } }
+  function updGet() {
+    var b = updBr(); if (!b || upd.st === 'dl') return;
+    upd.st = 'dl'; upd.n = -1; upd.why = ''; if (isOpen) render();
+    try { b.installUpdate(); } catch (e) { upd.st = 'fail'; upd.why = 'open'; if (isOpen) render(); }
+  }
+  function updWeb() {
+    var b = updBr();
+    try { if (b && typeof b.updateInBrowser === 'function') { b.updateInBrowser(); return; } } catch (e) { /* 아래로 */ }
+    window.open((latest && latest.url) || ('https://github.com/' + C.repo + '/releases/latest'), '_blank', 'noopener');
+  }
+  function updRow() {
+    var Bt = function (k, t, main, dis) { return '<button class="btn' + (main ? ' main' : '') + '" type="button" data-upd="' + k + '"' + (dis ? ' disabled' : '') + '>' + t + '</button>'; };
+    if (upd.st === 'dl') return Bt('get', '받는 중…', true, true);
+    if (upd.st === 'ok') return Bt('get', '설치 화면 다시 열기', true);
+    if (upd.st === 'perm') return Bt('get', '설치 허용 켜러 가기', true);
+    if (upd.st === 'permno' || upd.st === 'fail') return Bt('get', '다시 해 보기', true) + Bt('web', '브라우저로 받기');
+    return hasUpdate() ? Bt('get', '업데이트 받기', true) : '';
+  }
   function statusHTML() {
+    if (updBr()) {
+      if (upd.st === 'dl') return (upd.n >= 0 ? '새 버전 받는 중 <b>' + upd.n + '%</b>' : '새 버전 받는 중이에요…') + '<span class="upbar" aria-hidden="true"><i style="width:' + Math.max(0, upd.n) + '%"></i></span>';
+      if (upd.st === 'ok') return "다 받았어요. 열린 설치 화면에서 '업데이트'를 눌러 주세요. 만든 친구와 그림은 그대로 남아요.";
+      if (upd.st === 'perm') return "처음 한 번만 설치 허용이 필요해요. 열린 설정 화면에서 '이 출처 허용'을 켜고 돌아오면 이어서 설치해요.";
+      if (upd.st === 'permno') return "설치 허용이 꺼져 있어서 설치하지 못했어요. '이 출처 허용'을 켜고 다시 해 보거나 브라우저로 받아 주세요.";
+      if (upd.st === 'fail') return '새 버전을 받지 못했어요. ' + (UPD_WHY[upd.why] || UPD_WHY.net);
+    }
     if (!C.online) return C.web ? '웹앱은 열 때마다 저절로 최신 버전으로 바뀌어요.' : '미리보기에서는 새 버전을 확인하지 않아요. 앱에서는 자동으로 확인해요.';
     if (checking) return '새 버전을 확인하는 중이에요…';
     if (hasUpdate()) return '새 버전(<b>v' + esc(norm(latest.v)) + '</b>)이 나왔어요.';
@@ -2692,8 +2737,8 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
       '<div class="sheet" role="dialog" aria-modal="true" aria-label="' + esc(C.name) + ' 앱 정보" tabindex="-1">' +
       '<div class="grab"></div><div class="head"><h2>' + esc(C.name) + '<span class="vtag' + (up ? ' up' : '') + '">v' + esc(cur()) + '</span></h2>' +
       '<button class="x" type="button" data-x aria-label="닫기">×</button></div>' +
-      '<p class="msg">' + statusHTML() + '</p>' +
-      '<div class="row">' + (up && latest.url ? '<a class="btn main" href="' + esc(latest.url) + '" target="_blank" rel="noopener">업데이트 받기</a>' : '') +
+      '<p class="msg" role="status">' + statusHTML() + '</p>' +
+      '<div class="row">' + (updBr() ? updRow() : up && latest.url ? '<a class="btn main" href="' + esc(latest.url) + '" target="_blank" rel="noopener">업데이트 받기</a>' : '') +
       (C.online ? '<button class="btn" type="button" data-chk' + (checking ? ' disabled' : '') + '>새 버전 확인</button>' : '') + '</div>' +
       bkHTML() +
       '<p class="lbl">업데이트 내용</p><ul class="notes">' + notes + '</ul>' +
@@ -2701,6 +2746,7 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
     root.querySelectorAll('[data-x]').forEach(function (b) { b.addEventListener('click', close); });
     var c = root.querySelector('[data-chk]');
     if (c) c.addEventListener('click', function () { check(true); });
+    root.querySelectorAll('[data-upd]').forEach(function (b) { b.addEventListener('click', function () { if (b.getAttribute('data-upd') === 'web') updWeb(); else updGet(); }); });
     root.querySelectorAll('[data-bk]').forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-bk'); if (k === 'save') bkSave(); else if (k === 'open') bkOpen(); else if (k === 'apply') bkApply(); else if (k === 'unlock') bkUnlock(); else { bk.pending = null; bk.locked = null; bkSet(''); } }); });
   }
   function open() { isOpen = true; host.style.display = 'block'; render(); var sh = root.querySelector('.sheet'); if (sh) sh.focus(); if (C.online && !checking && (!latest || Date.now() - (latest.at || 0) > 600000)) check(false); }
@@ -2730,8 +2776,21 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
   function native(v) { if (v) { latest = { v: norm(v), url: (latest && latest.url) || ('https://github.com/' + C.repo + '/releases/latest'), at: Date.now() }; try { localStorage.setItem(KEY, JSON.stringify(latest)); } catch (e) { /* 무시 */ } paint(); } }
 
   window.AppInfo = { open: open, check: check, native: native, refresh: paint, theme: function () { if (isOpen) render(); },
-    backupDone: function (ok, why) { bkDone(!!ok, why); }, backupOpened: function (t) { bkOpened(t); } };
+    backupDone: function (ok, why) { bkDone(!!ok, why); }, backupOpened: function (t) { bkOpened(t); },
+    /* 폰(앱)이 받는 상황을 알려줌: dl(%) · ok · perm · permno · fail(이유) */
+    updState: function (st, v) {
+      upd.st = String(st || ''); upd.n = upd.st === 'dl' ? Math.max(-1, Math.min(100, Math.round(+v))) : -1; if (isNaN(upd.n)) upd.n = -1;
+      upd.why = upd.st === 'fail' ? String(v || '') : '';
+      updWait(upd.st === 'perm');
+      if (isOpen) render();
+    },
+    /* 앱 안에서 바로 받을 수 있는지 (안 되면 false: 예전처럼 브라우저로) */
+    canUpdate: function () { return !!updBr(); },
+    /* 앱을 켤 때 뜨는 '새 버전이 나왔어요' 알림에서 '업데이트'를 누름 */
+    updStart: function () { if (!updBr()) return false; if (!isOpen) open(); updGet(); return true; } };
   paint();
+  /* 설치 허용을 켜는 동안 앱이 다시 시작됐으면(일부 폰) 10분 안이면 이어서 받기 */
+  (function () { var w = 0; try { w = +localStorage.getItem(UPD_KEY) || 0; } catch (e) { /* 무시 */ } updWait(false); if (w && Date.now() - w < 600000 && updBr()) setTimeout(function () { window.AppInfo.updStart(); }, 700); })();
   if (C.online && (!latest || Date.now() - (latest.at || 0) > 6 * 3600000)) setTimeout(function () { check(false); }, 1500);
   document.addEventListener('visibilitychange', function () { if (!document.hidden && C.online && latest && Date.now() - (latest.at || 0) > 6 * 3600000) check(false); });
 })();
