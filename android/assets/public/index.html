@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-nodraft-keys="대사를 적어요|name">
 <head>
 <meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://api.github.com data: blob:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -306,16 +306,26 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
 /* 다크 모드: 흰 카드가 튀지 않게 (밑그림 선은 잘 보이게 연한 종이색) */
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stk{background:var(--card);color:var(--muted)}
   :root:not([data-theme="light"]) .stk.on{background:#3A3216;color:#FFE7A3;border-color:#FFC83D}
-  :root:not([data-theme="light"]) .dexc,:root:not([data-theme="light"]) .qcard,:root:not([data-theme="light"]) .skgrid button,
+  :root:not([data-theme="light"]) .dexc canvas,:root:not([data-theme="light"]) .dexc img,:root:not([data-theme="light"]) .qcard,:root:not([data-theme="light"]) .skgrid button,
   :root:not([data-theme="light"]) .albgrid button,:root:not([data-theme="light"]) .albrow img{background:#DCE3EE;border-color:#33405C}}
 :root[data-theme="dark"] .stk{background:var(--card);color:var(--muted)}
 :root[data-theme="dark"] .stk.on{background:#3A3216;color:#FFE7A3;border-color:#FFC83D}
-:root[data-theme="dark"] .dexc,:root[data-theme="dark"] .qcard,:root[data-theme="dark"] .skgrid button,
+:root[data-theme="dark"] .dexc canvas,:root[data-theme="dark"] .dexc img,:root[data-theme="dark"] .qcard,:root[data-theme="dark"] .skgrid button,
 :root[data-theme="dark"] .albgrid button,:root[data-theme="dark"] .albrow img{background:#DCE3EE;border-color:#33405C}
 /* 친구가 없을 때 무대 버튼: 흐리게 (누르면 친구부터 만들라고 알려 줌) */
 .ib.dim{opacity:.45;box-shadow:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dexc{background:var(--card);color:var(--ink);border-color:#33405C}}
+:root[data-theme="dark"] .dexc{background:var(--card);color:var(--ink);border-color:#33405C}
+.dexc canvas,.dexc img{border-radius:10px}
 /* 버전 글씨: 누르는 곳 46px, '아주 크게'에서도 글을 가리지 않게 아래 여백 */
-.ver{min-width:46px!important;min-height:46px!important}
+.ver{min-width:48px!important;min-height:48px!important}
+/* v4.6 아이 손가락 크기: 누르는 곳 48px(색 동그라미 44px) */
+.chip,.chip.sm,.btn{min-height:48px}.hbtn{height:48px}.mic,.x{min-width:44px;min-height:44px}.ln .x,.ln .mic{width:44px;height:44px}
+.sw,.sw.custom{width:44px;height:44px;min-width:44px}
+.dzoom .chip{min-width:48px}.sbar .ib{width:clamp(48px,14vw,56px);height:clamp(48px,14vw,56px)}
+.ctl input[type=range]{height:48px;margin:0}.ctl > span{white-space:nowrap}
+.x.ask,.chip.ask{width:auto;padding:0 10px;border-radius:14px;background:var(--pop);color:var(--pop-ink);font-size:14px;white-space:nowrap}
+#albShare{width:100%;margin-top:8px}
 :root[data-fs="2"] body{padding-bottom:84px}
 /* 새 버전 알림 글씨: 밝은 배경에서도 잘 보이게 */
 .ver.up{color:#8A5A00!important;font-weight:800}
@@ -330,7 +340,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
   <header>
     <h1>Doo<span>dle</span></h1>
     <p id="tabTitle">무대</p>
-    <button class="hbtn" id="readBtn" aria-pressed="true" aria-label="말로 알려 주기: 한국어">🗣️ 한국어</button>
+    <button class="hbtn" id="readBtn" aria-pressed="true" aria-label="말로 알려 주기: 한국어">🗣️ 읽어 주기: 한국어</button>
   </header>
 
   <!-- 탭 1: 무대 (무대만) -->
@@ -359,7 +369,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
   <section id="tab-draw" class="wrap tab" hidden>
     <div class="drawbox" id="drawbox">
       <div class="dtop">
-        <div class="dzoom"><button class="chip sm" id="sketchBtn">밑그림 고르기</button><button class="chip sm" id="drawPhoto">📷 그림 사진</button><button class="chip sm" id="traceBtn">✏️ 따라 그리기</button><button class="chip sm" id="eggBtn">🥚 알</button></div>
+        <div class="dzoom"><button class="chip sm" id="sketchBtn">밑그림 고르기</button><button class="chip sm" id="drawPhoto">📷 그림 사진</button><button class="chip sm" id="traceBtn">✏️ 따라 그리기</button><button class="chip sm" id="eggBtn">🥚 알 부화</button></div>
         <div class="dzoom">
           <button class="chip sm" id="zoomOut" aria-label="축소">−</button>
           <button class="chip sm" id="zoomReset">맞춤</button>
@@ -429,7 +439,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
         <button class="btn main" id="goDraw">직접 그리기</button>
         <button class="btn" id="photoBtn" type="button">📷 그림 사진</button>
       </div>
-      <p class="note">사진을 찍거나 앨범에서 고른 뒤, 원하는 곳만 손가락으로 둘러 그리기 화면으로 가져와요.</p>
+      <p class="note">사진을 찍거나 앨범에서 고른 뒤, 원하는 곳을 손가락으로 빙 둘러 고르면 그리기 화면으로 가져와요.</p>
     </div>
     <div class="group">
       <div class="label">🦕 공룡 놀이</div>
@@ -457,7 +467,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
         <button class="btn main" data-make>✏️ 친구 만들러 가기</button>
       </div>
       <div class="panel" id="decoPanel">
-        <div class="ctl"><span>이름</span><input type="text" id="name" maxlength="8" placeholder="뭉치"><button class="mic" id="nameMic" aria-label="목소리로 이름 담기" aria-pressed="false">🎤</button></div>
+        <div class="ctl"><span>이름</span><input type="text" id="name" maxlength="8" placeholder="뭉치" data-nodraft><button class="mic" id="nameMic" aria-label="목소리로 이름 담기" aria-pressed="false">🎤</button></div>
         <p class="note" id="nameMsg" aria-live="polite">🎤를 누르고 이름을 말하면, 무대에서 친구를 누를 때마다 그 목소리로 불러 줘요.</p>
         <div class="ctl"><span>크기</span><input type="range" id="size" min="40" max="140" value="100" aria-label="크기"><span id="sizeV">100%</span></div>
         <div class="chips" id="motions"></div>
@@ -471,7 +481,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
     </div>
     <div class="group">
       <div class="label">내 친구 상자</div>
-      <p class="note">만든 친구는 자동으로 보관돼요. 누르면 무대로 나와요.</p>
+      <p class="note">만든 친구는 자동으로 보관돼요. 누르면 무대로 나와요. 상자에는 최근 12개만 보이고, 전부는 그림 앨범에 있어요.</p>
       <div class="box" id="box"></div>
     </div>
     <div class="group">
@@ -557,6 +567,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
   <div id="albList"></div>
   <div id="albView" hidden><img id="albImg" alt=""><p class="albmeta" id="albMeta"></p>
     <div class="row"><button class="btn" id="albDel">지우기</button><button class="btn main" id="albStage">무대로 데려가기</button></div>
+    <button class="btn" id="albShare">📤 저장하거나 보내기</button>
     <button class="chip sm" id="albBack">◀ 앨범으로</button></div>
   <button class="chip sm" id="albClose">닫기</button>
 </div></div>
@@ -597,7 +608,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
 </div></div>
 <div class="shot" id="vidBox" hidden><div>
   <video id="vid" controls playsinline></video>
-  <p>미리보기 화면에서는 영상을 저장할 수 없어요. 앱에서는 갤러리 저장과 카톡 보내기가 돼요.</p>
+  <p id="vidNote">미리보기 화면에서는 영상을 저장할 수 없어요. 앱에서는 갤러리 저장과 카톡 보내기가 돼요.</p>
   <button class="btn" id="vidClose">닫기</button>
 </div></div>
 <div class="shot" id="upd" hidden><div class="updcard" role="dialog" aria-labelledby="updTitle">
@@ -607,7 +618,7 @@ body,button,p,.note,.label,.chip,.btn,.empty,.stoast,.sub{word-break:keep-all;ov
   <div class="row"><button class="btn" id="updLater">나중에</button><button class="btn main" id="updGo">업데이트</button></div>
   <p>업데이트를 누르면 새 앱 파일을 받아요. 받은 파일을 열어 설치하면 끝! 만든 친구들은 그대로 남아요.</p>
 </div></div>
-<div class="ver">v4.5</div>
+<div class="ver">v4.6</div>
 
 <script>
 (function(){
@@ -616,6 +627,17 @@ const stage=document.getElementById('stage'), ctx=stage.getContext('2d');
 ctx.setTransform(2,0,0,2,0,0);
 const $=id=>document.getElementById(id);
 const toast=$('toast');
+// 마이크를 못 쓸 때: 허용 안 함 / 웹앱 / 미리보기를 나눠서 알려 줘요
+function micErr(e){const n=e&&e.name||'';
+  if((n==='NotAllowedError'||n==='SecurityError')&&CAP)return '마이크를 쓸 수 없어요. 폰 설정에서 마이크 사용을 허용해 주세요.';
+  if(window.APP_INFO&&APP_INFO.web)return n==='NotAllowedError'?'마이크를 쓸 수 없어요. 설정에서 이 브라우저의 마이크 사용을 허용해 주세요.':'이 폰 브라우저에서는 마이크를 쓸 수 없어요.';
+  if(CAP)return '마이크를 쓸 수 없어요. 다시 해 볼까요?';
+  return '마이크를 쓸 수 없어요. 미리보기 화면에서는 막혀 있고, 앱에서는 돼요.'}
+// 지우는 버튼: 한 번 더 눌러야 지워요 (3초 뒤 원래대로)
+function ask2(b,q,fn){if(b.dataset.ok!=='1'){b.dataset.ok='1';b.dataset.t=b.textContent;b.dataset.l=b.getAttribute('aria-label')||'';b.classList.add('ask');b.textContent=q;b.setAttribute('aria-label','한 번 더 누르면 지워요');
+    clearTimeout(b._t);b._t=setTimeout(()=>{if(b.dataset.ok==='1')ask2.reset(b)},3000);return false}
+  ask2.reset(b);fn();return true}
+ask2.reset=b=>{b.dataset.ok='';b.classList.remove('ask');b.textContent=b.dataset.t||b.textContent;if(b.dataset.l)b.setAttribute('aria-label',b.dataset.l);else b.removeAttribute('aria-label')};
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clock=()=>performance.now()/1000*(reduce?0.4:1);
 const rt=()=>performance.now()/1000;
@@ -660,6 +682,10 @@ if(hasTTS){pickVoice();try{speechSynthesis.onvoiceschanged=pickVoice}catch(e){}}
 const PITCH=[1.4,0.75,1.8,1.05,1.6];
 // 앱(APK)에서는 폰의 기본 음성 엔진으로 진짜 목소리를 냄
 const CAP=(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform())?window.Capacitor.Plugins:null;
+// 사진·영상·그림책·백업을 보내려고 잠깐 만든 파일은 다음에 보낼 때와 앱을 열 때 지워요 (폰 안에 쌓이지 않게)
+async function cleanCache(){try{if(!(CAP&&CAP.Filesystem&&CAP.Filesystem.readdir))return;const r=await CAP.Filesystem.readdir({path:'',directory:'CACHE'});
+  for(const f of (r&&r.files)||[]){const n=typeof f==='string'?f:f&&f.name;if(n&&/^doodle-/i.test(n)&&!/[\/]/.test(n))await CAP.Filesystem.deleteFile({path:n,directory:'CACHE'}).catch(()=>{})}}catch(e){}}
+window.doodleCleanCache=cleanCache;cleanCache();
 const NTTS=CAP&&CAP.TextToSpeech;
 let nativeBusy=false;
 function stopTTS(){if(curSrc){try{curSrc.stop()}catch(e){}curSrc=null}if(NTTS){try{NTTS.stop()}catch(e){}nativeBusy=false}if(hasTTS)try{speechSynthesis.cancel()}catch(e){}}
@@ -820,7 +846,7 @@ function dust(x){for(let i=0;i<7;i++)particles.push({x:x+(Math.random()-.5)*60,y
 let readOn=(()=>{try{return localStorage.getItem('doodle-read')!=='0'}catch(e){return true}})();
 /* 말로 알려 주기: 한국어 / English / 끄기 (버튼을 누를 때마다 차례로) */
 let voiceLang=(()=>{try{return localStorage.getItem('doodle-voice')==='en'?'en':'ko'}catch(e){return 'ko'}})();
-function setReadBtn(){const b=$('readBtn');b.setAttribute('aria-pressed',readOn);b.textContent=readOn?(voiceLang==='en'?'🗣️ 영어':'🗣️ 한국어'):'🤫 조용히';
+function setReadBtn(){const b=$('readBtn');b.setAttribute('aria-pressed',readOn);b.textContent=readOn?(voiceLang==='en'?'🗣️ 읽어 주기: 영어':'🗣️ 읽어 주기: 한국어'):'🤫 읽어 주기: 끔';
   b.setAttribute('aria-label',readOn?(voiceLang==='en'?'말로 알려 주기: 영어':'말로 알려 주기: 한국어'):'말로 알려 주기 꺼짐')}
 $('readBtn').onclick=()=>{if(!readOn){readOn=true;voiceLang='ko'}else if(voiceLang==='ko')voiceLang='en';else readOn=false;
   try{localStorage.setItem('doodle-read',readOn?'1':'0');localStorage.setItem('doodle-voice',voiceLang)}catch(e){}setReadBtn();
@@ -1174,7 +1200,7 @@ const dataBlob=u=>{const [h,b]=u.split(','),bin=atob(b),a=new Uint8Array(bin.len
 $('snap').onclick=async()=>{sfx.snap();const url=stage.toDataURL('image/png');
   if(CAP&&CAP.Filesystem&&CAP.Share){
     try{const name='doodle-'+Date.now()+'.png';
-      const w=await CAP.Filesystem.writeFile({path:name,data:url.split(',')[1],directory:'CACHE'});
+      await cleanCache();const w=await CAP.Filesystem.writeFile({path:name,data:url.split(',')[1],directory:'CACHE'});
       await CAP.Share.share({title:'Doodle',text:'내 그림 친구들!',files:[w.uri],dialogTitle:'사진 저장하거나 보내기'});return}
     catch(e){if(e&&/cancel/i.test(String(e.message||e)))return}}
   if(!CAP&&await webShare(dataBlob(url),'doodle-'+Date.now()+'.png','내 그림 친구들!'))return;
@@ -1187,10 +1213,11 @@ async function saveVideo(blob,type){
   const ext=/mp4/.test(type)?'mp4':'webm';
   if(CAP&&CAP.Filesystem&&CAP.Share){
     try{const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(blob)});
-      const w=await CAP.Filesystem.writeFile({path:'doodle-'+Date.now()+'.'+ext,data:b64,directory:'CACHE'});
+      await cleanCache();const w=await CAP.Filesystem.writeFile({path:'doodle-'+Date.now()+'.'+ext,data:b64,directory:'CACHE'});
       await CAP.Share.share({title:'Doodle',text:'내 그림 친구들의 연극!',files:[w.uri],dialogTitle:'영상 저장하거나 보내기'});return}
     catch(e){if(e&&/cancel/i.test(String(e.message||e)))return}}
   if(!CAP&&await webShare(blob,'doodle-'+Date.now()+'.'+ext,'내 그림 친구들의 연극!'))return;
+  if(window.APP_INFO&&APP_INFO.web)$('vidNote').textContent='이 폰 브라우저에서는 영상 저장이 안 돼요. 안드로이드 앱에서는 갤러리 저장과 카톡 보내기가 돼요.';
   const v=$('vid');try{if(v.src)URL.revokeObjectURL(v.src)}catch(e){}v.src=URL.createObjectURL(blob);$('vidBox').hidden=false;
 }
 $('vidClose').onclick=()=>{$('vid').pause();$('vidBox').hidden=true};
@@ -1231,20 +1258,20 @@ function renderLines(){
       const s=document.createElement('select');s.setAttribute('aria-label',sn+'장 배경');
       Object.entries(SCENES).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v;if(k===ln.scene)o.selected=true;s.appendChild(o)});
       s.onchange=()=>{ln.scene=s.value};
-      const x=document.createElement('button');x.className='x';x.textContent='×';x.setAttribute('aria-label',sn+'장 지우기');x.onclick=()=>{script.splice(i,1);renderLines()};
+      const x=document.createElement('button');x.className='x';x.textContent='×';x.setAttribute('aria-label',sn+'장 지우기');x.onclick=()=>ask2(x,'지울까요?',()=>{script.splice(i,1);renderLines();toast.textContent='장면을 지웠어요.'});
       row.append(t,s,x);el.appendChild(row);return}
     if(!chars.some(c=>c.id===ln.who))ln.who=chars[0].id;
     const row=document.createElement('div');row.className='ln'+(i===playIdx?' on':'');
     const s=document.createElement('select');s.setAttribute('aria-label',(i+1)+'번 대사를 말할 친구');
     chars.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;if(c.id===ln.who)o.selected=true;s.appendChild(o)});
     s.onchange=()=>ln.who=+s.value;
-    const t=document.createElement('input');t.type='text';t.maxLength=30;t.value=ln.text;t.placeholder='대사를 적어요';t.setAttribute('aria-label',(i+1)+'번 대사');
+    const t=document.createElement('input');t.type='text';t.maxLength=30;t.value=ln.text;t.placeholder='대사를 적어요';t.setAttribute('data-nodraft','');t.setAttribute('aria-label',(i+1)+'번 대사');
     t.oninput=()=>ln.text=t.value;
     const mic=document.createElement('button');mic.className='mic'+(micLine===ln?' on':'');mic.textContent=micLine===ln?'■':'🎤';
     mic.setAttribute('aria-pressed',String(!!ln.buf));mic.setAttribute('aria-label',micLine===ln?'녹음 멈추기':(ln.buf?(i+1)+'번 대사 다시 녹음':(i+1)+'번 대사 내 목소리로 녹음'));
     mic.onclick=()=>toggleMic(ln);
     const x=document.createElement('button');x.className='x';x.textContent='×';x.setAttribute('aria-label',(i+1)+'번 대사 지우기');
-    x.onclick=()=>{script.splice(i,1);renderLines()};
+    x.onclick=()=>ask2(x,'지울까요?',()=>{if(micLine===ln&&micRec)micRec.stop();script.splice(i,1);renderLines();toast.textContent='대사를 지웠어요.'});
     row.append(s,t,mic,x);el.appendChild(row);
   });
 }
@@ -1265,7 +1292,7 @@ async function toggleMic(ln){
     micRec=mr;micLine=ln;mr.start();renderLines();
     toast.textContent='녹음 중… 다 말하면 ■ 버튼을 눌러요. (최대 10초)';
     setTimeout(()=>{if(micRec===mr)mr.stop()},10000);
-  }catch(e){toast.textContent='마이크를 쓸 수 없어요. 미리보기 화면에서는 막혀 있고, 앱에서는 돼요.'}
+  }catch(e){toast.textContent=micErr(e)}
 }
 $('addLine').onclick=()=>{if(!chars.length){syncEmpty();const n=$('needPlay');n.classList.remove('blink');void n.offsetWidth;n.classList.add('blink');n.scrollIntoView({block:'center',behavior:'smooth'});flashMsg('먼저 친구를 만들어 주세요');announce('먼저 친구를 만들어 주세요','Make a friend first');return}
   const lastWho=script.length?script[script.length-1].who:null;
@@ -1317,6 +1344,7 @@ const kvReady=kvInit();
 function loadBox(){try{const l=JSON.parse(kvMem[KEY]||'[]');return Array.isArray(l)?l:[]}catch(e){return[]}}
 function saveBox(list){kvPut(KEY,JSON.stringify(list));return true}
 function storeFriend(c){const list=loadBox(),it={id:Date.now(),img:c.thumb,kind:c.kind||null,parts:c.parts||null,name:c.name,voice:c.voice||null};c.boxId=it.id;list.unshift(it);
+  if(list.length>12)flashMsg('상자에는 최근 12개만 있어요. 전부는 그림 앨범에 있어요.');
   while(list.length>12)list.pop();saveBox(list);renderBox();albumAdd(it)}
 function renderBox(){
   const el=$('box'),list=loadBox();el.innerHTML='';
@@ -1617,21 +1645,21 @@ async function restoreDraw(){let d=null;try{d=JSON.parse(kvMem[DKEY]||'null')}ca
   if(d.sketch)setSketch(d.sketch);if(d.img){const cv=await imgCanvas(d.img);if(cv)px.drawImage(cv,0,0)}}
 
 /* ================= v3: 되돌리기 (바뀐 부분만 보관) ================= */
-let undoStack=[],redoStack=[],pendingSnap=null,undoBytes=0;const UNDO_MAX=16e6;
-function snap(){pendingSnap=px.getImageData(0,0,PW,PH)}
+let undoStack=[],redoStack=[],pendingSnap=null,undoBytes=0,snapSk=null;const UNDO_MAX=16e6;
+function snap(){pendingSnap=px.getImageData(0,0,PW,PH);snapSk=sketchKey}
 function crop(img,x0,y0,w,h){const out=new ImageData(w,h);for(let y=0;y<h;y++){const s=((y0+y)*PW+x0)*4;out.data.set(img.data.subarray(s,s+w*4),y*w*4)}return out}
 function commit(){if(!pendingSnap)return;const cur=px.getImageData(0,0,PW,PH),A=new Uint32Array(pendingSnap.data.buffer),B=new Uint32Array(cur.data.buffer);
   let x0=PW,y0=PH,x1=-1,y1=-1;
   for(let y=0;y<PH;y++){const r=y*PW;let a=-1,b=-1;for(let x=0;x<PW;x++)if(A[r+x]!==B[r+x]){a=x;break}if(a<0)continue;
     for(let x=PW-1;x>=a;x--)if(A[r+x]!==B[r+x]){b=x;break}if(a<x0)x0=a;if(b>x1)x1=b;if(y<y0)y0=y;y1=y}
-  if(x1<0){pendingSnap=null;return}
-  const w=x1-x0+1,h=y1-y0+1;undoStack.push({x:x0,y:y0,before:crop(pendingSnap,x0,y0,w,h),after:crop(cur,x0,y0,w,h)});undoBytes+=w*h*8;redoStack=[];
+  if(x1<0){if(snapSk===sketchKey){pendingSnap=null;return}x0=y0=x1=y1=0}
+  const w=x1-x0+1,h=y1-y0+1;undoStack.push({x:x0,y:y0,before:crop(pendingSnap,x0,y0,w,h),after:crop(cur,x0,y0,w,h),sk0:snapSk,sk1:sketchKey});undoBytes+=w*h*8;redoStack=[];
   while(undoStack.length>30||undoBytes>UNDO_MAX){const s=undoStack.shift();undoBytes-=s.before.width*s.before.height*8}
   pendingSnap=null;drawDirty=true;drawDirtyAt=Date.now()}
-$('undo').onclick=()=>{if(stroke||!undoStack.length)return;const s=undoStack.pop();undoBytes-=s.before.width*s.before.height*8;px.putImageData(s.before,s.x,s.y);redoStack.push(s);drawDirty=true;drawDirtyAt=Date.now()};
-$('redo').onclick=()=>{if(stroke||!redoStack.length)return;const s=redoStack.pop();px.putImageData(s.after,s.x,s.y);undoStack.push(s);undoBytes+=s.before.width*s.before.height*8;drawDirty=true;drawDirtyAt=Date.now()};
+$('undo').onclick=()=>{if(stroke||!undoStack.length)return;const s=undoStack.pop();undoBytes-=s.before.width*s.before.height*8;px.putImageData(s.before,s.x,s.y);if(s.sk0!==undefined&&s.sk0!==sketchKey)setSketch(s.sk0);redoStack.push(s);drawDirty=true;drawDirtyAt=Date.now()};
+$('redo').onclick=()=>{if(stroke||!redoStack.length)return;const s=redoStack.pop();px.putImageData(s.after,s.x,s.y);if(s.sk1!==undefined&&s.sk1!==sketchKey)setSketch(s.sk1);undoStack.push(s);undoBytes+=s.before.width*s.before.height*8;drawDirty=true;drawDirtyAt=Date.now()};
 $('clear').onclick=()=>{snap();px.clearRect(0,0,PW,PH);commit();toast2('색칠한 것만 지웠어요. 밑그림은 그대로예요.')};
-$('clearAll').onclick=()=>{snap();px.clearRect(0,0,PW,PH);commit();setSketch(null);drawDirty=true;toast2('모두 지웠어요.')};
+$('clearAll').onclick=()=>{if(!ask2($('clearAll'),'정말 다 지울까요?',()=>{snap();px.clearRect(0,0,PW,PH);setSketch(null);commit();drawDirty=true;toast2('모두 지웠어요. 「되돌리기」로 다시 살릴 수 있어요.')}))toast2('한 번 더 누르면 밑그림까지 모두 지워요.')};
 
 /* ================= v3: 장면 · 영상 ================= */
 function setScene(k){scene=k;[...scenesEl.children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.k===k)))}
@@ -1658,7 +1686,7 @@ function startPlay(){
   if(!lineCount()){toast.textContent='연극 탭에서 대사를 먼저 적어 주세요.';return false}
   if(soundOn)audio();if(readOn&&NTTS)NTTS.stop().catch(()=>{});
   playing=true;$('play').textContent='■';$('play').setAttribute('aria-pressed','true');
-  toast.textContent=soundOn?(NTTS||!ttsBroken?'연극 시작! 소리가 안 들리면 폰 무음 모드를 확인해 주세요.':'연극 시작! 이 화면은 목소리가 막혀서 말소리로 들려 줘요. 앱에서는 목소리로 읽어 줘요.'):'소리가 꺼져 있어서 자막으로만 보여 줘요.';
+  toast.textContent=soundOn?(NTTS||!ttsBroken?'연극 시작! 소리가 안 들리면 폰 무음 모드를 확인해 주세요.':(window.APP_INFO&&APP_INFO.web?'연극 시작! 이 브라우저에서는 대사를 읽어 주지 못해서 웅얼웅얼 소리와 자막으로 보여 줘요.':'연극 시작! 이 화면은 목소리가 막혀서 말소리로 들려 줘요. 앱에서는 목소리로 읽어 줘요.')):'소리가 꺼져 있어서 자막으로만 보여 줘요.';
   chars.forEach(c=>{c.sayUntil=0;c.target=null});sceneNo=script.length&&script[0].type==='scene'?0:1;playIdx=-1;playNext(playToken);return true}
 $('play').onclick=()=>{if(playing){stopPlay();toast.textContent='연극을 멈췄어요.';return}startPlay()};
 $('play2').onclick=()=>{showTab('stage');if(!playing)startPlay()};
@@ -1781,7 +1809,7 @@ const SKETCH_KEYS=new Set(LINEART.LIST.flatMap(g=>g.items.map(i=>i[0])));
 function setSketch(key){sketchKey=key;lnx.clearRect(0,0,PW,PH);if(key==='hatch'){drawEggArt(lnx);lineAlpha();return}if(!key||!SKETCH_KEYS.has(key)){sketchKey=null;return}
   LINEART.draw(lnx,key,PW,PH);lineAlpha()}
 let skCat=0;
-function loadSketch(k){if(TR.on)traceStop();traceKind=null;snap();px.clearRect(0,0,PW,PH);commit();setSketch(k);drawDirty=true;drawDirtyAt=Date.now();fitPaper();pen='fill';
+function loadSketch(k){if(TR.on)traceStop();traceKind=null;snap();px.clearRect(0,0,PW,PH);setSketch(k);commit();drawDirty=true;drawDirtyAt=Date.now();fitPaper();pen='fill';
   [...pensEl.children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.k==='fill')));updDot();
   toast2(speakName(k)+' 밑그림이에요! 색칠통으로 톡톡 칠하거나 크레용으로 칠해 보세요.')}
 function openSketch(){
@@ -1844,12 +1872,12 @@ $('cutUse').onclick=()=>{const o=CUT.out;if(!o)return;if(TR.on)traceStop();trace
   const s=Math.min(880/o.width,790/o.height);px.drawImage(o,(PW-o.width*s)/2,(PH-o.height*s)/2,o.width*s,o.height*s);commit();
   drawDirty=true;drawDirtyAt=Date.now();$('cutBox').hidden=true;CUT.img=null;CUT.out=null;showTab('draw');fitPaper();
   pen='crayon';[...pensEl.children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.k==='crayon')));updDot();
-  toast2('사진을 가져왔어요! 그 위에 그리거나 색칠하고 「살아나라!」를 눌러요.');
+  toast2('사진을 가져왔어요! 그 위에 그리거나 색칠하고 「살아나라!」를 눌러요. 전에 그린 그림은 「되돌리기」로 살릴 수 있어요.');
   announce('사진을 가져왔어요! 그리고 색칠해 봐요','Here is your photo! Draw and color on it')};
 $('drawPhoto').onclick=cutOpen;$('photoBtn').onclick=cutOpen;
 $('sketchBtn').onclick=()=>openSketch();
 $('skClose').onclick=()=>{$('sketchBox').hidden=true};
-$('skNone').onclick=()=>{$('sketchBox').hidden=true;if(TR.on)traceStop();traceKind=null;setSketch(null);drawDirty=true;toast2('밑그림 없이 자유롭게 그려요.')};
+$('skNone').onclick=()=>{$('sketchBox').hidden=true;if(TR.on)traceStop();traceKind=null;snap();setSketch(null);commit();drawDirty=true;toast2('밑그림 없이 자유롭게 그려요.')};
 
 /* --- 크게 그리기 (가로 화면) --- */
 const SO=CAP&&CAP.ScreenOrientation;
@@ -2047,7 +2075,7 @@ function drawEggArt(g){g.save();g.clearRect(0,0,PW,PH);g.lineWidth=9;g.lineJoin=
   g.stroke(new Path2D('M180 560 L260 620 L340 560 L420 620 L500 560 L580 620 L660 560 L740 620 L820 560'));
   [[380,250,42],[560,200,30],[640,330,36],[330,730,34],[520,740,46],[690,700,28]].forEach(([x,y,r])=>{g.beginPath();g.arc(x,y,r,0,7);g.stroke()});
   g.restore();g.restore()}
-function loadEgg(){if(TR.on){TR.on=false;$('traceBar').hidden=true}traceKind=null;snap();px.clearRect(0,0,PW,PH);commit();setSketch('hatch');drawDirty=true;drawDirtyAt=Date.now();showTab('draw');fitPaper();
+function loadEgg(){if(TR.on){TR.on=false;$('traceBar').hidden=true}traceKind=null;snap();px.clearRect(0,0,PW,PH);setSketch('hatch');commit();drawDirty=true;drawDirtyAt=Date.now();showTab('draw');fitPaper();
   pen='fill';[...pensEl.children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.k==='fill')));updDot();
   toast2('🥚 알을 예쁘게 색칠하고 「살아나라!」를 누르면 아기 공룡이 깨어나요!');announce('알을 색칠하고 살아나라를 누르면 아기 공룡이 깨어나요!','Color the egg, then tap Come alive to hatch a baby dino!')}
 function padColor(){const d=px.getImageData(0,0,PW,PH).data;let r=0,g=0,b=0,n=0;
@@ -2150,7 +2178,7 @@ function traceDraw(praise){const g=TR.g,cur=g.steps[TR.i];lnx.clearRect(0,0,PW,P
   const no=(TR.i+1)+'/'+g.steps.length;$('traceStep').textContent=no+' '+cur[0];
   toast2('초록 점에서 시작해서 주황 점선을 따라 그려요.');
   announce((praise?'잘했어요! ':'')+cur[0],(praise?'Great! ':'')+cur[1])}
-function traceStart(g){$('traceBox').hidden=true;if(playing)stopPlay();showTab('draw');snap();px.clearRect(0,0,PW,PH);commit();setSketch(null);
+function traceStart(g){$('traceBox').hidden=true;if(playing)stopPlay();showTab('draw');snap();px.clearRect(0,0,PW,PH);setSketch(null);commit();
   TR.on=true;TR.g=g;TR.i=0;traceKind=null;pen='crayon';size=14;$('penSize').value=14;
   [...pensEl.children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.k==='crayon')));
   if(color==='#FFFFFF'){color='#222222';[...colorsEl.children].forEach(x=>x.setAttribute('aria-pressed',String(x.style&&x.style.background==='rgb(34, 34, 34)')))}
@@ -2188,7 +2216,7 @@ $('nameMic').onclick=async()=>{if(nameRec){nameRec.stop();return}if(needFriend()
         $('nameMsg').textContent='✅ '+c.name+' 이름을 내 목소리로 담았어요! 무대에서 누르면 불러 줘요.'}
       catch(e){$('nameMsg').textContent='녹음을 담지 못했어요. 다시 해 볼까요?'}};
     mr.start();$('nameMsg').textContent='🔴 지금 이름을 말해요! (3초)';setTimeout(()=>{if(nameRec===mr)mr.stop()},3000)}
-  catch(e){$('nameMsg').textContent='마이크를 쓸 수 없어요. 미리보기 화면에서는 막혀 있고, 앱에서는 돼요.'}};
+  catch(e){$('nameMsg').textContent=micErr(e)}};
 $('name').addEventListener('change',()=>{if(sel)boxPatch(sel)});
 
 /* ================= 6. 그림 앨범 (날짜별, 이 폰에만) ================= */
@@ -2197,32 +2225,52 @@ function albDB(){return new Promise(res=>{try{const r=indexedDB.open(ALB.db);r.o
   r.onsuccess=()=>{const db=r.result;if(!db.objectStoreNames.contains(ALB.store)){db.close();res(null);return}res(db)};r.onerror=()=>res(null)}catch(e){res(null)}})}
 function albTx(mode,fn){return albDB().then(db=>{if(!db)return null;return new Promise(res=>{let out=null;try{const tx=db.transaction(ALB.store,mode),st=tx.objectStore(ALB.store);out=fn(st);
   tx.oncomplete=()=>{db.close();res(out&&'result' in out?out.result:out)};tx.onerror=tx.onabort=()=>{db.close();res(null)}}catch(e){db.close();res(null)}})})}
+const ALS={db:'doodle-album-sm',store:'items'};   // 앨범 목록용 작은 그림 (백업엔 안 넣음, 원본에서 다시 만듦)
+function alsDB(){return new Promise(res=>{try{const r=indexedDB.open(ALS.db);r.onupgradeneeded=()=>{try{r.result.createObjectStore(ALS.store)}catch(e){}};
+  r.onsuccess=()=>{const db=r.result;if(!db.objectStoreNames.contains(ALS.store)){db.close();res(null);return}res(db)};r.onerror=()=>res(null)}catch(e){res(null)}})}
+const reqP=r=>new Promise(res=>{r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)});
+async function albGet(k){const db=await albDB();if(!db)return null;try{return await reqP(db.transaction(ALB.store).objectStore(ALB.store).get(k))}catch(e){return null}finally{db.close()}}
+// 목록: 키만 읽어 작은 그림 목록과 맞춘 뒤(새로 생긴 것만 원본 한 장씩 읽기) 작은 그림만 돌려줘요
+async function albSmall(){const db=await albDB();if(!db)return[];let keys=[];try{keys=await reqP(db.transaction(ALB.store).objectStore(ALB.store).getAllKeys())||[]}catch(e){}db.close();
+  const sdb=await alsDB();if(!sdb)return (await albAll()).map(([k,v])=>[k,{k,t:v.t||k,sm:v.sm||v.img,name:v.name||''}]);
+  try{let rows=[];try{rows=await reqP(sdb.transaction(ALS.store).objectStore(ALS.store).getAll())||[]}catch(e){}
+    const ks=new Set(keys),have=new Map(rows.filter(r=>r&&ks.has(r.k)).map(r=>[r.k,r]));
+    const extra=rows.filter(r=>!r||!ks.has(r.k)),miss=keys.filter(k=>!have.has(k));
+    for(const k of miss){const v=await albGet(k);if(!v)continue;const r={k,t:v.t||k,sm:v.sm||await smallThumb(v.img),name:v.name||''};have.set(k,r);
+      try{sdb.transaction(ALS.store,'readwrite').objectStore(ALS.store).put(r,k)}catch(e){}}
+    if(extra.length)try{const st=sdb.transaction(ALS.store,'readwrite').objectStore(ALS.store);extra.forEach(r=>{if(r&&r.k!=null)st.delete(r.k)})}catch(e){}
+    return keys.slice().reverse().filter(k=>have.has(k)).map(k=>[k,have.get(k)])}finally{setTimeout(()=>sdb.close(),500)}}
+function alsPut(r){return alsDB().then(db=>{if(!db)return;try{const tx=db.transaction(ALS.store,'readwrite');tx.objectStore(ALS.store).put(r,r.k);tx.oncomplete=tx.onerror=()=>db.close()}catch(e){db.close()}})}
+function alsDel(k){return alsDB().then(db=>{if(!db)return;try{const tx=db.transaction(ALS.store,'readwrite');tx.objectStore(ALS.store).delete(k);tx.oncomplete=tx.onerror=()=>db.close()}catch(e){db.close()}})}
 function albAll(){return albDB().then(db=>{if(!db)return[];return new Promise(res=>{const out=[];try{const q=db.transaction(ALB.store).objectStore(ALB.store).openCursor(null,'prev');
   q.onsuccess=()=>{const c=q.result;if(c){out.push([c.key,c.value]);c.continue()}else{db.close();res(out)}};q.onerror=()=>{db.close();res(out)}}catch(e){db.close();res(out)}})})}
 function smallThumb(src){return new Promise(res=>{const im=new Image();im.onload=()=>{const s=Math.min(1,200/Math.max(im.width,im.height)),c=document.createElement('canvas');
   c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(im,0,0,c.width,c.height);
   res(c.toDataURL('image/jpeg',0.8))};im.onerror=()=>res(src);im.src=src})}
-async function albumAdd(it){const sm=await smallThumb(it.img);await albTx('readwrite',st=>st.put({t:it.id,img:it.img,sm,name:it.name||'',kind:it.kind||null,parts:it.parts||null,voice:it.voice||null},it.id));renderAlbRow()}
+async function albumAdd(it){const sm=await smallThumb(it.img);await albTx('readwrite',st=>st.put({t:it.id,img:it.img,sm,name:it.name||'',kind:it.kind||null,parts:it.parts||null,voice:it.voice||null},it.id));await alsPut({k:it.id,t:it.id,sm,name:it.name||''});renderAlbRow()}
 async function albPatch(id,p){const db=await albDB();if(!db)return;try{const st=db.transaction(ALB.store,'readwrite').objectStore(ALB.store),g=st.get(id);
-  g.onsuccess=()=>{if(g.result)st.put(Object.assign(g.result,p),id)};g.transaction.oncomplete=()=>db.close()}catch(e){db.close()}}
+  g.onsuccess=()=>{if(g.result)st.put(Object.assign(g.result,p),id)};g.transaction.oncomplete=()=>db.close()}catch(e){db.close()}
+  if(p&&'name' in p)alsDB().then(sdb=>{if(!sdb)return;try{const st=sdb.transaction(ALS.store,'readwrite').objectStore(ALS.store),g=st.get(id);g.onsuccess=()=>{if(g.result)st.put(Object.assign(g.result,{name:p.name||''}),id)};g.transaction.oncomplete=()=>sdb.close()}catch(e){sdb.close()}})}
 const DAYS=['일','월','화','수','목','금','토'];
 const dayName=t=>{const d=new Date(t);return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+DAYS[d.getDay()]+')'};
-async function renderAlbRow(){const rows=await albAll(),el=$('albRow');el.innerHTML='';$('albCount').textContent=rows.length?rows.length+'개':'';
+async function renderAlbRow(){const rows=await albSmall(),el=$('albRow');el.innerHTML='';$('albCount').textContent=rows.length?rows.length+'개':'';
   if(!rows.length){const p=document.createElement('div');p.className='empty';p.textContent='아직 앨범이 비어 있어요. 친구를 만들면 날짜별로 모여요.';el.appendChild(p);$('albOpen').hidden=true;return}
   $('albOpen').hidden=false;rows.slice(0,10).forEach(([,v])=>{const im=document.createElement('img');im.src=v.sm||v.img;im.alt='';el.appendChild(im)})}
 let albCur=null;
-async function albOpen(){closeAllBoxes();const rows=await albAll(),L=$('albList');L.innerHTML='';$('albView').hidden=true;L.hidden=false;let day='';let grid=null;
+async function albOpen(){closeAllBoxes();const rows=await albSmall(),L=$('albList');L.innerHTML='';$('albView').hidden=true;L.hidden=false;let day='';let grid=null;
   if(!rows.length){const p=document.createElement('p');p.className='note';p.textContent='아직 앨범이 비어 있어요.';L.appendChild(p)}
   rows.forEach(([k,v])=>{const dn=dayName(v.t||k);if(dn!==day){day=dn;const h=document.createElement('div');h.className='albday';h.textContent=dn;grid=document.createElement('div');grid.className='albgrid';L.append(h,grid)}
     const b=document.createElement('button');const im=document.createElement('img');im.src=v.sm||v.img;im.alt='';b.appendChild(im);b.setAttribute('aria-label',(v.name||'친구')+' 크게 보기');
     b.onclick=()=>albShow(k,v);grid.appendChild(b)});
   $('albBox').hidden=false;announce('그림 앨범','Drawing album')}
-function albShow(k,v){albCur=[k,v];$('albList').hidden=true;$('albView').hidden=false;$('albImg').src=v.img;const d=new Date(v.t||k);
+async function albShow(k,sv){const v=await albGet(k);if(!v){toast.textContent='그림을 찾지 못했어요.';albOpen();return}albCur=[k,v];$('albList').hidden=true;$('albView').hidden=false;$('albImg').src=v.img;const d=new Date(v.t||k);
   $('albMeta').textContent=(v.name||'친구')+' · '+dayName(v.t||k)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
   $('albDel').textContent='지우기';$('albDel').dataset.ok=''}
 $('albBack').onclick=()=>{$('albView').hidden=true;$('albList').hidden=false};
 $('albDel').onclick=async()=>{const b=$('albDel');if(!b.dataset.ok){b.dataset.ok='1';b.textContent='정말 지울까요?';return}
-  await albTx('readwrite',st=>st.delete(albCur[0]));renderAlbRow();albOpen()};
+  await albTx('readwrite',st=>st.delete(albCur[0]));await alsDel(albCur[0]);renderAlbRow();albOpen()};
+$('albShare').onclick=async()=>{const v=albCur&&albCur[1];if(!v||!v.img)return;const bl=dataBlob(v.img),d=new Date(v.t||albCur[0]),ext=/jpe?g/.test(bl.type)?'jpg':'png';
+  await shareFile(bl,'doodle-그림-'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.'+ext,'우리 아이가 그린 그림!')};
 $('albStage').onclick=async()=>{const v=albCur[1];const cv=await imgCanvas(v.img);if(!cv)return;$('albBox').hidden=true;
   const c=addChar(cv,v.kind?defaultMotion(v.kind):null,v.name||null,{kind:v.kind,parts:v.parts,voice:v.voice});showTab('stage');toast.textContent=c.name+'가 무대에 나왔어요!'};
 $('albOpen').onclick=albOpen;$('albClose').onclick=()=>{$('albBox').hidden=true};
@@ -2276,7 +2324,7 @@ function makePDF(pages){const enc=new TextEncoder(),parts=[],offs=[];let len=0;c
   push(x);push('trailer\n<< /Size '+total+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF\n');return new Blob(parts,{type:'application/pdf'})}
 async function shareFile(blob,name,text){
   if(CAP&&CAP.Filesystem&&CAP.Share){try{const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(blob)});
-      const w=await CAP.Filesystem.writeFile({path:name,data:b64,directory:'CACHE'});await CAP.Share.share({title:'Doodle',text,files:[w.uri],dialogTitle:'저장하거나 보내기'});return true}
+      await cleanCache();const w=await CAP.Filesystem.writeFile({path:name,data:b64,directory:'CACHE'});await CAP.Share.share({title:'Doodle',text,files:[w.uri],dialogTitle:'저장하거나 보내기'});return true}
     catch(e){if(e&&/cancel/i.test(String(e.message||e)))return true}}
   if(!CAP&&await webShare(blob,name,text))return true;
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},5000);return true}
@@ -2385,8 +2433,8 @@ requestAnimationFrame(loop);
 })();
 </script>
 <!--APPINFO--><script>
-window.APP_INFO={"name": "Doodle", "repo": "mini-2026/doodle", "version": "4.5", "mount": ".ver", "notes": [{"v": "current", "d": "2026.11.20", "items": ["📝 적던 글 지키기: 글을 적다가 앱이 꺼져도 사라지지 않아요. 다시 열어 같은 칸을 열면 적던 글이 그대로 이어져요 (필요 없으면 '버리기'를 눌러 주세요)"]}, {"v": "v4.4", "d": "2026.11.15", "items": ["✏️ 글자 다듬기: '저장하세요'를 '저장해 주세요'처럼 부드럽게 바꾸고, 띄어쓰기(읽어 줘요·알려 주기)를 맞췄어요. 비밀번호·저장 공간 안내를 다른 앱과 같은 말로 맞추고, '내 데이터 백업'을 '내 기록 백업'으로 바꿨어요"]}, {"v": "v4.3", "d": "2026.11.13", "items": ["🎪 친구가 없을 때 무대 버튼(연극·녹화·자동 놀이·사진)은 흐리게 보여요. 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고 친구 만드는 곳으로 안내해요", "🌗 부모님 칸에 「화면 색」이 생겼어요. 폰 설정 따라·밝게·어둡게 중에 골라요", "🎨 주황 버튼 색을 진하게 해서 흰 글씨가 더 잘 보여요. 새 버전 알림 글씨도 밝은 화면에서 잘 보이게 했어요", "🔒 백업 비밀번호를 더 튼튼하게 만들어요. 이제 8글자 이상이고, 숫자만 쓰면 한 번 더 확인해요 (예전에 만든 백업도 그대로 열려요)", "💾 저장이 안 될 때 알림 문구를 알기 쉽게 바꾸고, 또 실패하면 다시 알려 줘요", "🔒 아이폰 웹앱이 같은 주소의 다른 앱 저장 파일을 지우지 않게 고쳤어요", "왼쪽 아래 버전 글씨를 누르기 쉽게 조금 넓혔어요"]}, {"v": "v4.2", "d": "2026.11.13", "items": ["🦖 처음 열면 무대 아래에 「공룡 색칠부터 해 보기」 버튼이 있어요. 눌러서 바로 시작해요", "🎭 친구가 없을 때 연극 탭이나 친구 꾸미기를 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고, 「친구 만들러 가기」로 바로 가요", "▶ 무대 버튼 아래에 연극·녹화·자동 놀이·소리·사진 이름을 붙였어요. 오른쪽 위 말하기 버튼도 「한국어·영어·조용히」로 보여요", "💾 그림을 더 넉넉한 저장 공간에 보관해요. 그림이 많아도 안 사라지고, 저장이 안 되면 화면에 알려 줘요 (예전 그림은 저절로 옮겨져요)", "🔒 백업 파일에 비밀번호를 걸 수 있어요 (6글자 이상). 아이 그림과 목소리를 더 안전하게 지켜요", "🧸 친구 상자에서 ×를 한 번 더 눌러야 빠져요 (실수로 지우지 않게). 빼도 그림 앨범에는 남아요", "🌙 어두운 화면에서 스티커·도감 카드가 눈부시지 않게 했어요. 부모님 칸에 글자 크기(보통·크게·아주 크게)가 생겼어요", "🔤 낱말이 중간에서 끊기지 않게 줄을 바꿔요. 왼쪽 아래 버전 글씨가 화면 내용을 가리지 않아요", "🔒 보안: 폰 자동 백업으로 그림이 밖으로 나가지 않게 하고, 암호화 안 된 인터넷 주소는 막았어요. 글꼴 파일을 줄여 앱이 더 가벼워졌어요", "「무대에서 내보내기」→「무대에서 빼기」, 「모두 같게」→「모두 같은 움직임」으로 쉬운 말로 바꿨어요"]}, {"v": "v4.1", "d": "2026.11.12", "items": ["🦴 화석 발굴 버튼 이름을 다른 놀이와 같게 「살아나라!」로 맞췄어요", "🔒 앱을 만들 때 쓰는 부품 버전을 고정해서 더 안전하게 만들어요"]}, {"v": "v4.0", "d": "2026.11.08", "items": ["🦴 화석 발굴: 모래를 문질러 공룡 화석을 찾고 살려내요 (도감에도 들어가요)", "🥚 알 부화: 알을 색칠하고 살아나라! 하면 흔들흔들 깨지며 아기 공룡이 태어나요", "🔊 누구일까?: 설명을 듣고 공룡 세 마리 중에 맞혀요 (한국어·영어)", "✏️ 따라 그리기: 점선을 순서대로 따라 그리면 공룡 완성 (알·티라노·브라키오·스테고)", "🎤 목소리 이름: 이름을 말로 담으면 무대에서 누를 때마다 그 목소리로 불러 줘요", "📅 그림 앨범: 만든 친구들이 날짜별로 모여요", "📖 연극 그림책: 대사 한 줄이 한 쪽! 그림책(PDF)으로 저장·카톡 보내기", "🔒 놀이 시간(부모님): 정한 시간이 되면 친구들이 인사하고 커튼을 닫아요", "보안: 앱이 쓰지 않는 바깥 글꼴·그림 주소를 막고, 인터넷은 업데이트 확인 주소만 쓰게 했어요"]}, {"v": "v3.8", "d": "2026.11.05", "items": ["보안 강화: 앱 화면이 허락된 곳 말고는 스크립트를 불러오지 못하게 막고, 폰의 다른 파일을 읽지 못하게 하고, 업데이트 파일은 이 앱 저장소 주소에서만 받아요"]}, {"v": "v3.7", "d": "2026.11.05", "items": ["📷 그림 사진: 사진 찍기와 앨범 고르기를 따로 눌러요 (앱에서 카메라가 안 열리던 문제 고침)", "사진에서 원하는 곳만 손가락으로 둘러 고르면, 사진 모습 그대로 그리기 화면에 들어가요. 그 위에 그리고 색칠한 뒤 살아나라!", "말로 알려 주기를 한국어·영어 중에 골라요 (오른쪽 위 🗣️ 버튼: 한 → EN → 끄기)", "종이 색칠 놀이를 뺐어요"]}, {"v": "v3.6", "d": "2026.11.05", "items": ["공룡 밑그림 12종을 도감처럼 고급스럽게 새로 그렸어요 (팔다리·꼬리 움직임도 새 그림에 맞춤)", "사진으로 밑그림: 사진을 찍고 색칠하고 싶은 것만 손가락으로 빙 두르면 배경을 빼고 색칠 밑그림으로 바꿔요 (선 적게·보통·많이)", "만든 사진 밑그림은 밑그림 고르기 → 📸 내 사진에 모여요"]}, {"v": "v3.5", "d": "2026.11.05", "items": ["아이폰·아이패드에서도 써요 (사파리에서 열고 홈 화면에 추가)", "스케치북에 그린 그림 사진에서 책상·그림자·누런 종이·스프링을 빼고 그림만 오려 친구로", "띠링·쿵 같은 효과음을 뺐어요 (말소리·목소리·배경 음악은 그대로)", "내 기록 백업: 왼쪽 아래 버전 → 친구·그림·대본을 파일로 저장했다가 새 폰(아이폰도)에서 불러오기"]}, {"v": "v3.4", "d": "2026.11.01", "items": ["그리기 탭에서도 '📷 그림 사진'으로 종이에 그린 그림을 찍어 친구 만들기", "작은 폰에서 그리기 탭 위쪽 버튼 글자가 두 줄로 깨지지 않게"]}, {"v": "v3.3", "d": "2026.11.01", "items": ["공룡 3·6·9·12마리를 모으면 스티커를 받고, 도감을 다 채우면 축하 화면이 떠요", "친구들 탭 맨 위에 '새 친구 만들기' 버튼", "휴대폰 뒤로 가기 버튼으로 열린 창부터 닫아요 (예전에는 바로 앱이 꺼졌어요)"]}, {"v": "v3.2", "d": "2026.11.01", "items": ["작은 폰에서 친구들 탭이 옆으로 밀리던 문제를 고쳤어요", "작은 폰에서 무대 버튼이 화면 밖으로 나가지 않게 했어요", "친구가 없을 때 꾸미기 버튼을 누르면 친구부터 만들라고 알려 줘요"]}, {"v": "v3.1", "d": "2026.11.01", "items": ["처음 열면 빈 무대에서 시작해요 (예시 친구를 미리 넣지 않아요)", "보안: 앱 서명 키를 새로 바꿨어요. 이번 한 번만 지우고 새로 설치해 주세요", "왼쪽 아래 버전을 누르면 앱 정보·업데이트 내용을 볼 수 있고, 새 버전이 있으면 노란색으로 알려 줘요"]}, {"v": "v3.0", "d": "2026.10.30", "items": ["공룡이 공룡처럼 걷고 울고 꼬리를 흔들어요, 공룡 도감 12칸", "누르는 것마다 이름을 읽어 줘요", "팔다리 만들기, 종이 색칠, 장면이 있는 연극과 영상 저장", "앱을 껐다 켜도 무대·대본·그림이 그대로"]}, {"v": "v2.2", "d": "2026.10.29", "items": ["앱 받기·사용 설명 페이지", "화면을 길게 눌러도 글자가 선택되지 않아요", "펜 굵기 미리보기 모양 수정"]}, {"v": "v2.1", "d": "2026.10.29", "items": ["무대 버튼을 아이콘으로 작게 정리", "친구 꾸미기는 친구들 탭, 배경·음악은 연극 탭으로"]}, {"v": "v1.8", "d": "2026.10.28", "items": ["새 버전이 나오면 앱을 켤 때 알려 줘요", "업데이트해도 만든 친구들은 그대로"]}], "privacy": "그린 그림, 친구, 대본, 녹음한 목소리, 그림 앨범은 이 폰에만 저장돼요. 폰 자동 백업에도 실리지 않아요. 인터넷은 새 버전을 확인할 때만 써요.", "backup": {"keys": ["living-drawing-box-v1", "doodle-*"], "idb": [{"db": "doodle-data", "store": "kv"}, {"db": "doodle-album", "store": "items"}]}};
-window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());window.APP_INFO.web=!window.APP_INFO.online&&/github\.io$/.test(location.hostname);if(window.APP_INFO.online)window.APP_INFO.backup.save=function(n,t){var P=Capacitor.Plugins;if(!P.Filesystem||!P.Share)return false;return P.Filesystem.writeFile({path:n,data:t,directory:'CACHE',encoding:'utf8'}).then(function(w){return P.Share.share({title:n,files:[w.uri],dialogTitle:'백업 파일 저장하기'})}).then(function(){return true},function(e){if(/cancel/i.test(String(e&&e.message||e)))return false;throw e})};
+window.APP_INFO={"name": "Doodle", "repo": "mini-2026/doodle", "version": "4.6", "mount": ".ver", "notes": [{"v": "current", "d": "2026.11.26", "items": ["👆 버튼 크게: 그리기·연극·친구들 탭의 작은 버튼과 색 동그라미를 아이 손가락으로 누르기 쉽게 키웠어요", "↶ 되돌리기: 「다 지우기」를 한 번 더 눌러야 지워지고, 되돌리면 밑그림까지 돌아와요", "🎭 연극 대사와 장면의 ×도 한 번 더 눌러야 지워져요", "📤 그림 앨범의 그림 하나를 저장하거나 보낼 수 있어요", "⚡ 그림이 많이 쌓여도 앨범과 「살아나라!」가 느려지지 않게 했어요", "🧹 보내려고 잠깐 만든 사진·영상·백업 파일을 폰에 남기지 않아요", "✏️ '적던 글이 남아 있어요' 안내가 자꾸 뜨던 문제를 고치고, 아이폰·마이크 안내 문구를 상황에 맞게 바꿨어요"]}, {"v": "v4.5", "d": "2026.11.20", "items": ["📝 적던 글 지키기: 글을 적다가 앱이 꺼져도 사라지지 않아요. 다시 열어 같은 칸을 열면 적던 글이 그대로 이어져요 (필요 없으면 '지우기'를 눌러 주세요)"]}, {"v": "v4.4", "d": "2026.11.15", "items": ["✏️ 글자 다듬기: '저장하세요'를 '저장해 주세요'처럼 부드럽게 바꾸고, 띄어쓰기(읽어 줘요·알려 주기)를 맞췄어요. 비밀번호·저장 공간 안내를 다른 앱과 같은 말로 맞추고, '내 데이터 백업'을 '내 기록 백업'으로 바꿨어요"]}, {"v": "v4.3", "d": "2026.11.13", "items": ["🎪 친구가 없을 때 무대 버튼(연극·녹화·자동 놀이·사진)은 흐리게 보여요. 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고 친구 만드는 곳으로 안내해요", "🌗 부모님 칸에 「화면 색」이 생겼어요. 폰 설정 따라·밝게·어둡게 중에 골라요", "🎨 주황 버튼 색을 진하게 해서 흰 글씨가 더 잘 보여요. 새 버전 알림 글씨도 밝은 화면에서 잘 보이게 했어요", "🔒 백업 비밀번호를 더 튼튼하게 만들어요. 이제 8글자 이상이고, 숫자만 쓰면 한 번 더 확인해요 (예전에 만든 백업도 그대로 열려요)", "💾 저장이 안 될 때 알림 문구를 알기 쉽게 바꾸고, 또 실패하면 다시 알려 줘요", "🔒 아이폰 웹앱이 같은 주소의 다른 앱 저장 파일을 지우지 않게 고쳤어요", "왼쪽 아래 버전 글씨를 누르기 쉽게 조금 넓혔어요"]}, {"v": "v4.2", "d": "2026.11.13", "items": ["🦖 처음 열면 무대 아래에 「공룡 색칠부터 해 보기」 버튼이 있어요. 눌러서 바로 시작해요", "🎭 친구가 없을 때 연극 탭이나 친구 꾸미기를 누르면 「먼저 친구를 만들어 주세요」라고 알려 주고, 「친구 만들러 가기」로 바로 가요", "▶ 무대 버튼 아래에 연극·녹화·자동 놀이·소리·사진 이름을 붙였어요. 오른쪽 위 말하기 버튼도 「한국어·영어·조용히」로 보여요", "💾 그림을 더 넉넉한 저장 공간에 보관해요. 그림이 많아도 안 사라지고, 저장이 안 되면 화면에 알려 줘요 (예전 그림은 저절로 옮겨져요)", "🔒 백업 파일에 비밀번호를 걸 수 있어요 (6글자 이상). 아이 그림과 목소리를 더 안전하게 지켜요", "🧸 친구 상자에서 ×를 한 번 더 눌러야 빠져요 (실수로 지우지 않게). 빼도 그림 앨범에는 남아요", "🌙 어두운 화면에서 스티커·도감 카드가 눈부시지 않게 했어요. 부모님 칸에 글자 크기(보통·크게·아주 크게)가 생겼어요", "🔤 낱말이 중간에서 끊기지 않게 줄을 바꿔요. 왼쪽 아래 버전 글씨가 화면 내용을 가리지 않아요", "🔒 보안: 폰 자동 백업으로 그림이 밖으로 나가지 않게 하고, 암호화 안 된 인터넷 주소는 막았어요. 글꼴 파일을 줄여 앱이 더 가벼워졌어요", "「무대에서 내보내기」→「무대에서 빼기」, 「모두 같게」→「모두 같은 움직임」으로 쉬운 말로 바꿨어요"]}, {"v": "v4.1", "d": "2026.11.12", "items": ["🦴 화석 발굴 버튼 이름을 다른 놀이와 같게 「살아나라!」로 맞췄어요", "🔒 앱을 만들 때 쓰는 부품 버전을 고정해서 더 안전하게 만들어요"]}, {"v": "v4.0", "d": "2026.11.08", "items": ["🦴 화석 발굴: 모래를 문질러 공룡 화석을 찾고 살려내요 (도감에도 들어가요)", "🥚 알 부화: 알을 색칠하고 살아나라! 하면 흔들흔들 깨지며 아기 공룡이 태어나요", "🔊 누구일까?: 설명을 듣고 공룡 세 마리 중에 맞혀요 (한국어·영어)", "✏️ 따라 그리기: 점선을 순서대로 따라 그리면 공룡 완성 (알·티라노·브라키오·스테고)", "🎤 목소리 이름: 이름을 말로 담으면 무대에서 누를 때마다 그 목소리로 불러 줘요", "📅 그림 앨범: 만든 친구들이 날짜별로 모여요", "📖 연극 그림책: 대사 한 줄이 한 쪽! 그림책(PDF)으로 저장·카톡 보내기", "🔒 놀이 시간(부모님): 정한 시간이 되면 친구들이 인사하고 커튼을 닫아요", "보안: 앱이 쓰지 않는 바깥 글꼴·그림 주소를 막고, 인터넷은 업데이트 확인 주소만 쓰게 했어요"]}, {"v": "v3.8", "d": "2026.11.05", "items": ["보안 강화: 앱 화면이 허락된 곳 말고는 스크립트를 불러오지 못하게 막고, 폰의 다른 파일을 읽지 못하게 하고, 업데이트 파일은 이 앱 저장소 주소에서만 받아요"]}, {"v": "v3.7", "d": "2026.11.05", "items": ["📷 그림 사진: 사진 찍기와 앨범 고르기를 따로 눌러요 (앱에서 카메라가 안 열리던 문제 고침)", "사진에서 원하는 곳만 손가락으로 둘러 고르면, 사진 모습 그대로 그리기 화면에 들어가요. 그 위에 그리고 색칠한 뒤 살아나라!", "말로 알려 주기를 한국어·영어 중에 골라요 (오른쪽 위 🗣️ 버튼: 한 → EN → 끄기)", "종이 색칠 놀이를 뺐어요"]}, {"v": "v3.6", "d": "2026.11.05", "items": ["공룡 밑그림 12종을 도감처럼 고급스럽게 새로 그렸어요 (팔다리·꼬리 움직임도 새 그림에 맞춤)", "사진으로 밑그림: 사진을 찍고 색칠하고 싶은 것만 손가락으로 빙 두르면 배경을 빼고 색칠 밑그림으로 바꿔요 (선 적게·보통·많이)", "만든 사진 밑그림은 밑그림 고르기 → 📸 내 사진에 모여요"]}, {"v": "v3.5", "d": "2026.11.05", "items": ["아이폰·아이패드에서도 써요 (사파리에서 열고 홈 화면에 추가)", "스케치북에 그린 그림 사진에서 책상·그림자·누런 종이·스프링을 빼고 그림만 오려 친구로", "띠링·쿵 같은 효과음을 뺐어요 (말소리·목소리·배경 음악은 그대로)", "내 기록 백업: 왼쪽 아래 버전 → 친구·그림·대본을 파일로 저장했다가 새 폰(아이폰도)에서 불러오기"]}, {"v": "v3.4", "d": "2026.11.01", "items": ["그리기 탭에서도 '📷 그림 사진'으로 종이에 그린 그림을 찍어 친구 만들기", "작은 폰에서 그리기 탭 위쪽 버튼 글자가 두 줄로 깨지지 않게"]}, {"v": "v3.3", "d": "2026.11.01", "items": ["공룡 3·6·9·12마리를 모으면 스티커를 받고, 도감을 다 채우면 축하 화면이 떠요", "친구들 탭 맨 위에 '새 친구 만들기' 버튼", "휴대폰 뒤로 가기 버튼으로 열린 창부터 닫아요 (예전에는 바로 앱이 꺼졌어요)"]}, {"v": "v3.2", "d": "2026.11.01", "items": ["작은 폰에서 친구들 탭이 옆으로 밀리던 문제를 고쳤어요", "작은 폰에서 무대 버튼이 화면 밖으로 나가지 않게 했어요", "친구가 없을 때 꾸미기 버튼을 누르면 친구부터 만들라고 알려 줘요"]}, {"v": "v3.1", "d": "2026.11.01", "items": ["처음 열면 빈 무대에서 시작해요 (예시 친구를 미리 넣지 않아요)", "보안: 앱 서명 키를 새로 바꿨어요. 이번 한 번만 지우고 새로 설치해 주세요", "왼쪽 아래 버전을 누르면 앱 정보·업데이트 내용을 볼 수 있고, 새 버전이 있으면 노란색으로 알려 줘요"]}, {"v": "v3.0", "d": "2026.10.30", "items": ["공룡이 공룡처럼 걷고 울고 꼬리를 흔들어요, 공룡 도감 12칸", "누르는 것마다 이름을 읽어 줘요", "팔다리 만들기, 종이 색칠, 장면이 있는 연극과 영상 저장", "앱을 껐다 켜도 무대·대본·그림이 그대로"]}, {"v": "v2.2", "d": "2026.10.29", "items": ["앱 받기·사용 설명 페이지", "화면을 길게 눌러도 글자가 선택되지 않아요", "펜 굵기 미리보기 모양 수정"]}, {"v": "v2.1", "d": "2026.10.29", "items": ["무대 버튼을 아이콘으로 작게 정리", "친구 꾸미기는 친구들 탭, 배경·음악은 연극 탭으로"]}, {"v": "v1.8", "d": "2026.10.28", "items": ["새 버전이 나오면 앱을 켤 때 알려 줘요", "업데이트해도 만든 친구들은 그대로"]}], "privacy": "그린 그림, 가져온 사진, 친구, 대본, 녹음한 목소리, 그림 앨범은 이 폰에만 저장돼요. 저장하거나 보내려고 잠깐 만든 파일은 다음에 보낼 때나 앱을 열 때 지워요. 폰 자동 백업에도 실리지 않아요. 인터넷은 새 버전을 확인할 때만 써요.", "backup": {"keys": ["living-drawing-box-v1", "doodle-*"], "idb": [{"db": "doodle-data", "store": "kv"}, {"db": "doodle-album", "store": "items"}]}};
+window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());window.APP_INFO.web=!window.APP_INFO.online&&/github\.io$/.test(location.hostname);if(window.APP_INFO.online)window.APP_INFO.backup.save=function(n,t){var P=Capacitor.Plugins;if(!P.Filesystem||!P.Share)return false;return Promise.resolve(window.doodleCleanCache&&window.doodleCleanCache()).then(function(){return P.Filesystem.writeFile({path:n,data:t,directory:'CACHE',encoding:'utf8'})}).then(function(w){return P.Share.share({title:n,files:[w.uri],dialogTitle:'백업 파일 저장하기'})}).then(function(){return true},function(e){if(/cancel/i.test(String(e&&e.message||e)))return false;throw e})};
 </script>
 <script>
 /* ───── 앱 정보 창 (모든 앱 공통) ─────
@@ -2750,7 +2798,7 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
     var sp = document.createElement('span'); sp.textContent = msg; sp.style.flex = '1'; tw.appendChild(sp);
     if (btn) {
       var b = document.createElement('button'); b.type = 'button'; b.textContent = btn;
-      b.style.cssText = 'flex:none;border:0;border-radius:10px;padding:8px 12px;background:rgba(255,255,255,.16);color:#fff;font:inherit;font-weight:700;min-height:36px';
+      b.style.cssText = 'flex:none;border:0;border-radius:10px;padding:8px 12px;background:rgba(255,255,255,.16);color:#fff;font:inherit;font-weight:700;min-height:48px;min-width:48px';
       b.onclick = function () { fn(); if (tw && tw.parentNode) tw.parentNode.removeChild(tw); };
       tw.appendChild(b);
     }
@@ -2759,14 +2807,15 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
     setTimeout(function () { if (me.parentNode) me.parentNode.removeChild(me); }, 6000);
   }
   function restoreIn(root) {
-    var ks = Object.keys(pending), i, el, k, n = 0, last = null;
+    var ks = Object.keys(pending), i, el, k, n = 0, n0 = 0, last = null;
     for (i = 0; i < ks.length; i++) {
       k = ks[i]; el = find(k);
       if (!el || !(root === document || root.contains(el))) continue;
-      if (el.value) { continue; }
+      if (el.value) { if (el.value === pending[k].v || el.value.trim() === String(pending[k].v).trim()) { delete pending[k]; n0++; } continue; }
       el.value = pending[k].v; live[k] = pending[k]; delete pending[k]; n++; last = el;
       try { el.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
     }
+    if (n0 && !n) save();
     if (n) {
       save(); if (!tick) tick = setInterval(sync, 2000);
       var t = last;
@@ -2780,7 +2829,8 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
   function start() {
     store = load();
     var now = Date.now(), k;
-    for (k in store) if (store[k] && typeof store[k].v === 'string' && now - (store[k].t || 0) < MAXAGE) pending[k] = store[k];
+    var NOKEYS = (document.documentElement.getAttribute('data-nodraft-keys') || '').split('|');
+    for (k in store) if (store[k] && typeof store[k].v === 'string' && now - (store[k].t || 0) < MAXAGE && NOKEYS.indexOf(k) < 0) pending[k] = store[k];
     save();
     document.addEventListener('input', onInput, true);
     document.addEventListener('click', later, true);
@@ -2792,7 +2842,7 @@ window.APP_INFO.online=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacito
       restoreIn(document);
       if (!Object.keys(pending).length) return;
       var first = pending[Object.keys(pending)[0]].v.replace(/\s+/g, ' ');
-      toast('📝 적던 글이 남아 있어요: "' + (first.length > 14 ? first.slice(0, 14) + '…' : first) + '" 같은 칸을 다시 열면 이어서 써요', '버리기', function () { pending = {}; save(); if (mo) { mo.disconnect(); mo = null; } });
+      toast('📝 적던 글이 남아 있어요: "' + (first.length > 14 ? first.slice(0, 14) + '…' : first) + '" 같은 칸을 다시 열면 이어서 써요', '지우기', function () { pending = {}; save(); if (mo) { mo.disconnect(); mo = null; } });
       if (window.MutationObserver) {
         mo = new MutationObserver(function (ms) { for (var i = 0; i < ms.length; i++) if (ms[i].addedNodes.length) { setTimeout(function () { restoreIn(document); }, 60); return; } });
         mo.observe(document.body, { childList: true, subtree: true });
